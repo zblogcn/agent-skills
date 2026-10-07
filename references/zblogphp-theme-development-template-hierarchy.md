@@ -1,4 +1,4 @@
-﻿# 模板选择规则（页面 → 模板文件）
+# 模板选择规则（页面 → 模板文件）
 
 模板选择逻辑在 `zb_system/function/c_system_route.php`（ViewList / ViewPost / ViewSearch 等）。入口模板通过 `$template->SetTemplate('名字')` 设定，Display 时 include 编译产物 `{名字}.php`。
 
@@ -39,6 +39,16 @@ else SetTemplate('index');   // 主题没有该文件时一律回落到 index
 
 - 分类/标签/作者的 `Template` 字段存在数据库中（`cate_Template` 等，`zb_system/defend/datainfo.php`），后台编辑时可从主题里 template.json 声明 `type` 含 `list` 的模板中选择。
 - 列表页可用变量：`$articles`（Post 数组）、`$pagebar`（Pagebar 对象，无分页时为 null）、`$page`、`$type`、`$posttype`、`$category`/`$tag`/`$author`/`$date`（按类型）、`$url`。
+
+### 在 index.php 内按 `$type` 分派
+
+首页、分类、标签、作者、日期页默认共用 `index.php`。除了用独立模板文件（template.json 声明后由后台选择或回落机制选用）外，也可以直接在 `index.php` 内按 `$type` 分派到自定义片段，片段文件名任意（`c_` 这类「字母+下划线」开头的文件不会进入后台模板下拉框，见后文规则）：
+
+```
+{if $type=='index'&&$page=='1'}{template:c_list_index}{elseif $type=='category'}{template:c_list_cate}{elseif $type=='author'}{template:c_list_author}{elseif $type=='date'}{template:c_list_date}{elseif $type=='tag'}{template:c_list_tag}{else}{template:c_list}{/if}
+```
+
+注意首页翻页（`/page/2` 等）的 `$type` 仍是 `index`，只有 `$page` 增大；判断真正的首页首屏必须同时判断 `$page=='1'`。`{if}` 条件不能跨行（见 template-syntax.md「常见坑」）。
 
 ### 列表项片段模板
 
