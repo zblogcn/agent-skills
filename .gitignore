@@ -1,0 +1,14 @@
+# 本地私有配置
+config.local.md
+
+# 测试临时目录
+_test_output/
+_chk/
+_chk2/
+_cfgtest/
+_cfgtest2/
+_verify/
+
+# 系统文件
+.DS_Store
+Thumbs.db
