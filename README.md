@@ -64,7 +64,10 @@ zblogphp-agent-skills/
 ├── scripts/
 │   ├── create_app.py              # 主题/插件骨架生成器
 │   ├── detect_zblog_project.mjs   # 站点/插件/主题目录识别脚本
-│   └── skeleton/                  # AppCentre 骨架副本（include.html、main.html、plugin.png、theme.png）
+│   ├── include.html               # AppCentre 骨架模板
+│   ├── main.html                  # AppCentre 后台页骨架模板
+│   ├── plugin.png                 # 插件默认 logo
+│   └── theme.png                  # 主题默认截图
 └── references/
     ├── application-conventions.md
     ├── zblogphp-project-triage/

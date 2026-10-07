@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Z-BlogPHP 应用骨架生成器
 
-使用 skeleton 文件夹下的 AppCentre 素材（include.html、main.html、
+使用同目录下的 AppCentre 素材（include.html、main.html、
 plugin.png、theme.png）创建插件或主题的最小可运行骨架。
 
 用法示例：
@@ -21,9 +21,9 @@ import shutil
 import sys
 from datetime import date
 
-# 素材目录：与本脚本同级的 skeleton 文件夹
+# 素材目录：与本脚本同级
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-SKELETON_DIR = os.path.join(SCRIPT_DIR, "skeleton")
+SKELETON_DIR = SCRIPT_DIR
 
 # 技能根目录下的本地配置（私有，不随技能分发）
 SKILL_ROOT = os.path.dirname(SCRIPT_DIR)
@@ -372,7 +372,7 @@ def create_theme(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Z-BlogPHP 应用骨架生成器（使用 skeleton 素材）",
+        description="Z-BlogPHP 应用骨架生成器",
     )
     parser.add_argument(
         "-t", "--type", required=True, choices=["plugin", "theme"],
