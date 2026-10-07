@@ -10,11 +10,11 @@ python scripts/create_app.py -t plugin -i <应用ID> -n "<应用名称>" -a "<�
 
 脚本会在 `-o` 指定目录（默认当前目录）下生成 `<应用ID>/` 骨架，包含 `plugin.xml`、`include.php`（已注入 `$zbp->LoadLanguage('plugin', 'ID')`）、`logo.png`、`main.php` 和三份语言包。需要无管理页的插件加 `--no-admin`。若已在 `config.local.md` 配置 ID、名称、作者等，可省略 `-i`/`-n`/`-a`/`--url`。
 
-不使用脚本时，按[共同约定](../application-conventions.md)准备应用副本后，补充插件内容：
+不使用脚本时，按[共同约定](application-conventions.md)准备应用副本后，补充插件内容：
 
 1. 按下文字段表写入 `plugin.xml`。
-2. 按 [lifecycle.md](lifecycle.md) 在复制的 `include.php` 中添加插件注册、钩子和生命周期逻辑。
-3. 需要管理页时，按 [admin-page.md](admin-page.md) 在复制的 `main.html` 副本中添加表单与功能，并让 `<path>` 指向该文件。
+2. 按 [lifecycle.md](zblogphp-plugin-development-lifecycle.md) 在复制的 `include.php` 中添加插件注册、钩子和生命周期逻辑。
+3. 需要管理页时，按 [admin-page.md](zblogphp-plugin-development-admin-page.md) 在复制的 `main.html` 副本中添加表单与功能，并让 `<path>` 指向该文件。
 
 ## 目录结构
 
@@ -44,7 +44,7 @@ zb_users/plugin/{ID}/              # 按需扩展后的结构
 
 ## 语言包
 
-文件格式、加载和文案引用见[共同语言包约定](../application-conventions.md#语言包)。
+文件格式、加载和文案引用见[共同语言包约定](application-conventions.md#语言包)。
 
 ## 关键约束
 

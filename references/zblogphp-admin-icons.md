@@ -1,6 +1,6 @@
 ﻿# 页面图标与图片
 
-适用于主题前台、插件页面和后台功能代码；素材选用见[共同约定](../application-conventions.md#图片图标与-svg)。本文记录 Z-Blog icon 字体的加载和使用。
+适用于主题前台、插件页面和后台功能代码；素材选用见[共同约定](application-conventions.md#图片图标与-svg)。本文记录 Z-Blog icon 字体的加载和使用。
 
 ## Z-Blog 自带图标字体
 
@@ -47,4 +47,4 @@ PHP 页面引入方式：
 | 方向 | `icon-chevron-left`、`icon-chevron-right`、`icon-chevron-up`、`icon-chevron-down` |
 | Z-Blog 标识 | `icon-zblog`、`icon-zblogphp`、`icon-zblog-appcenter` |
 
-`MakeLeftMenu()` / `MakeTopMenu()` 的图标参数可直接传上述类名，调用方式见 [menus.md](menus.md)。
+`MakeLeftMenu()` / `MakeTopMenu()` 的图标参数可直接传上述类名，调用方式见 [menus.md](zblogphp-admin-menus.md)。

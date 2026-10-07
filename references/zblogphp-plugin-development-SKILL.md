@@ -4,7 +4,7 @@
 
 ### 1. 创建插件骨架
 
-确保已按主技能 `SKILL.md` 的「全局配置」完成 `config.local.md`（含应用 ID、名称、作者等）。用 `scripts/create_app.py` 生成骨架（命令见 [plugin-structure.md](plugin-structure.md#新建方式)），脚本会自动从 `config.local.md` 读取 ID、名称、作者、作者网站，无需重复传参；命令行参数可覆盖配置值。脚本会创建目录、plugin.xml、include.php、logo.png、main.php 和三份语言包；plugin.xml 各字段含义查 [plugin-structure.md](plugin-structure.md)。
+确保已按主技能 `SKILL.md` 的「全局配置」完成 `config.local.md`（含应用 ID、名称、作者等）。用 `scripts/create_app.py` 生成骨架（命令见 [plugin-structure.md](zblogphp-plugin-development-plugin-structure.md#新建方式)），脚本会自动从 `config.local.md` 读取 ID、名称、作者、作者网站，无需重复传参；命令行参数可覆盖配置值。脚本会创建目录、plugin.xml、include.php、logo.png、main.php 和三份语言包；plugin.xml 各字段含义查 [plugin-structure.md](zblogphp-plugin-development-plugin-structure.md)。
 
 ### 2. 注册与生命周期
 
@@ -16,7 +16,7 @@
 
 ### 4. 后台管理页
 
-按 [admin-page.md](admin-page.md) 处理管理页权限、插件启用状态、CSRF、后台页头尾和重定向。
+按 [admin-page.md](zblogphp-plugin-development-admin-page.md) 处理管理页权限、插件启用状态、CSRF、后台页头尾和重定向。
 
 ## 按症状排错
 

@@ -152,5 +152,5 @@ if (!$zbp->CheckRights('MyAct')) {
 
 ## 文件与目录防护
 
-- 应用 PHP 文件守卫见[共同约定](../application-conventions.md#php-文件守卫)。
-- 上传实现规则见[安全专题](SKILL.md)。
+- 应用 PHP 文件守卫见[共同约定](application-conventions.md#php-文件守卫)。
+- 上传实现规则见[安全专题](zblogphp-security-SKILL.md)。

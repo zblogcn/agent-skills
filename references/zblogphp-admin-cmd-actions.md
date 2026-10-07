@@ -1,4 +1,4 @@
-﻿# cmd.php 的 act 分发机制与常用 action
+# cmd.php 的 act 分发机制与常用 action
 
 来源：`zb_system/cmd.php`（共 382 行，1.7.5.3540）。
 
@@ -23,7 +23,7 @@ HookFilterPlugin('Filter_Plugin_Cmd_End');    // L382
 要点：
 
 - **act 只认 GET**（`GetVars('act', 'GET')`），POST 里的 act 无效。
-- 权限在进入 switch 之前统一校验；action → 所需用户级别的映射在 `zb_system/defend/actions.php`（见 zblogphp-security/permissions.md）。
+- 权限在进入 switch 之前统一校验；action → 所需用户级别的映射在 `zb_system/defend/actions.php`（见 zblogphp-security-permissions.md）。
 - `Filter_Plugin_Cmd_Begin` 在所有内置 action 之前触发，是插件接管/新增 cmd 行为的标准位置。
 
 ## 内置 action 一览（按 cmd.php switch 顺序）

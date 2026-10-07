@@ -4,7 +4,7 @@
 
 ### 1. 创建主题骨架
 
-确保已按主技能 `SKILL.md` 的「全局配置」完成 `config.local.md`（含应用 ID、名称、作者等）。用 `scripts/create_app.py` 生成骨架（命令见 [theme-structure.md](theme-structure.md#新建方式)），脚本会自动从 `config.local.md` 读取 ID、名称、作者、作者网站，无需重复传参；命令行参数可覆盖配置值。脚本会创建目录、theme.xml、include.php、screenshot.png、template.json、style.css 和三份语言包；theme.xml 各字段含义查 [theme-structure.md](theme-structure.md)。
+确保已按主技能 `SKILL.md` 的「全局配置」完成 `config.local.md`（含应用 ID、名称、作者等）。用 `scripts/create_app.py` 生成骨架（命令见 [theme-structure.md](zblogphp-theme-development-theme-structure.md#新建方式)），脚本会自动从 `config.local.md` 读取 ID、名称、作者、作者网站，无需重复传参；命令行参数可覆盖配置值。脚本会创建目录、theme.xml、include.php、screenshot.png、template.json、style.css 和三份语言包；theme.xml 各字段含义查 [theme-structure.md](zblogphp-theme-development-theme-structure.md)。
 
 ### 2. 模板与页面对应
 
@@ -16,7 +16,7 @@
 
 ### 4. include.php 与主题功能
 
-主题按插件机制注册，按需挂接模板变量和页面 Hook；注册、配置、文章动态字段和常用扩展见 [theme-functions.md](theme-functions.md)。
+主题按插件机制注册，按需挂接模板变量和页面 Hook；注册、配置、文章动态字段和常用扩展见 [theme-functions.md](zblogphp-theme-development-theme-functions.md)。
 
 ## 按症状排错
 

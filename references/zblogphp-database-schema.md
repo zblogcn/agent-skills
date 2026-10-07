@@ -2,7 +2,7 @@
 
 本文是已整理的 **Z-BlogPHP 1.7.5.3540** 表结构快照，开发时直接使用下文的数据字典。来源为 `zb_system/defend/datainfo.php`（字段定义，格式 `属性名 => array(真实列名, 类型, 长度, 默认值)`）、`zb_system/defend/table.php`（表名映射）和 `zb_system/defend/createtable/{mysql,sqlite,pgsql}.sql`（主键/索引）。这些路径仅用于溯源，不是重新读取或核实的步骤；其他版本的任务必需信息确实缺失时，按主技能的知识缺口规则处理。
 
-SQL 中表名一律写 `%pre%`（如 `%pre%post`），执行时由 `DbSql::ReplacePre()` 替换为真实前缀 `$zbp->db->dbpre`（详见 [dbsql.md](dbsql.md)）。
+SQL 中表名一律写 `%pre%`（如 `%pre%post`），执行时由 `DbSql::ReplacePre()` 替换为真实前缀 `$zbp->db->dbpre`（详见 [dbsql.md](zblogphp-database-dbsql.md)）。
 
 ## 0. 表总览
 
@@ -218,11 +218,11 @@ datainfo.php L4-9。
 
 ### Meta 列（log_Meta / cate_Meta / comm_Meta / mod_Meta / mem_Meta / tag_Meta / ul_Meta）
 
-每张实体表都有一个 `Meta` 列，是 **Metas 自定义字段的 PHP serialize 序列化存储处**：`Base::Save()` 开头把 `$this->Metas->Serialize()` 写入该列（base.php L461-463），读取时自动 Unserialize（base.php L296-299）。不要手改库里的这个字段；用法与按 Meta 查询（`META_NAME` / `META_NAMEVALUE`）见 [config-metas.md](config-metas.md)。
+每张实体表都有一个 `Meta` 列，是 **Metas 自定义字段的 PHP serialize 序列化存储处**：`Base::Save()` 开头把 `$this->Metas->Serialize()` 写入该列（base.php L461-463），读取时自动 Unserialize（base.php L296-299）。不要手改库里的这个字段；用法与按 Meta 查询（`META_NAME` / `META_NAMEVALUE`）见 [config-metas.md](zblogphp-database-config-metas.md)。
 
 ### Config 表结构
 
-按「项目名 + 键」存储：`conf_Name` = 项目名（`$zbp->Config($appid)` 的 appid），`conf_Key` = 键名（每键一行），`conf_Value` = 单值序列化。`Config::Save()` 在有 `conf_Key` 列时按 key 增/删/改原子化存储（config.php L405-503）；老库无 `conf_Key` 列则退化为整包 serialize 存一行。插件配置一律存这里，API 见 [config-metas.md](config-metas.md)。
+按「项目名 + 键」存储：`conf_Name` = 项目名（`$zbp->Config($appid)` 的 appid），`conf_Key` = 键名（每键一行），`conf_Value` = 单值序列化。`Config::Save()` 在有 `conf_Key` 列时按 key 增/删/改原子化存储（config.php L405-503）；老库无 `conf_Key` 列则退化为整包 serialize 存一行。插件配置一律存这里，API 见 [config-metas.md](zblogphp-database-config-metas.md)。
 
 ### 日期时间列的存储格式
 
@@ -267,4 +267,4 @@ $sql = $zbp->db->sql->Select('%pre%post', null,
 $list = $zbp->db->Query($sql);
 ```
 
-注意：模型层查询请优先用 `$zbp->GetPostList(...)` 等（见 [models.md](models.md)）；表名取 `$zbp->table['Post']` 或写 `%pre%`，不要硬编码前缀。
+注意：模型层查询请优先用 `$zbp->GetPostList(...)` 等（见 [models.md](zblogphp-database-models.md)）；表名取 `$zbp->table['Post']` 或写 `%pre%`，不要硬编码前缀。

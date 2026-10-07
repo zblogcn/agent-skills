@@ -10,7 +10,7 @@ python scripts/create_app.py -t theme -i <主题ID> -n "<主题名称>" -a "<作
 
 脚本会在 `-o` 指定目录（默认当前目录）下生成 `<主题ID>/` 骨架，包含 `theme.xml`、`include.php`（已注入 `$zbp->LoadLanguage('theme', 'ID')`）、`screenshot.png`、`template.json`、`style/style.css`、`template/`、`compile/`、`script/`、`include/` 和三份语言包。不需要配置页加 `--no-admin`。若已在 `config.local.md` 配置 ID、名称、作者等，可省略 `-i`/`-n`/`-a`/`--url`。
 
-不使用脚本时，按[共同约定](../application-conventions.md)准备主题副本后，创建 `style/`、`compile/`、`template/`、`include/`、`script/` 和 `style/style.css`，填写下文的 `theme.xml`。将管理入口的路径、启用状态判断、菜单高亮和图片引用调整为主题类型；功能扩展见 [theme-functions.md](theme-functions.md)。
+不使用脚本时，按[共同约定](application-conventions.md)准备主题副本后，创建 `style/`、`compile/`、`template/`、`include/`、`script/` 和 `style/style.css`，填写下文的 `theme.xml`。将管理入口的路径、启用状态判断、菜单高亮和图片引用调整为主题类型；功能扩展见 [theme-functions.md](zblogphp-theme-development-theme-functions.md)。
 
 ## 目录结构
 
@@ -37,7 +37,7 @@ zb_users/theme/{主题ID}/
 
 ## 语言包
 
-文件格式、加载及 PHP、模板和 JS 的文案引用见[共同语言包约定](../application-conventions.md#语言包)。
+文件格式、加载及 PHP、模板和 JS 的文案引用见[共同语言包约定](application-conventions.md#语言包)。
 
 ## theme.xml 全字段
 

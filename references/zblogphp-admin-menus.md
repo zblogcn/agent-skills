@@ -2,7 +2,7 @@
 
 来源：`zb_system/function/c_system_admin_function.php`（1.7.5.3540）。
 
-菜单图标的引入方式与类名见 [icons.md](icons.md)。
+菜单图标的引入方式与类名见 [icons.md](zblogphp-admin-icons.md)。
 
 ## 左侧菜单：`Filter_Plugin_Admin_LeftMenu`
 

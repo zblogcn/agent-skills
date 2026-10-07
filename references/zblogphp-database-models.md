@@ -28,7 +28,7 @@ public function __get($name)         { return $this->data[$name]; }
 
 所以写 `$post->Title = 'x'` 而不是 `$post->log_Title`。数组元素格式：`array(真实列名, 类型, 长度, 默认值)`，datainfo 的第一个键是主键 ID 名。
 
-完整数据字典见 [schema.md](schema.md)。
+完整数据字典见 [schema.md](zblogphp-database-schema.md)。
 
 构造：`$post = new Post();`（子类内部已绑定 table/datainfo）。Base 构造函数签名：`__construct(&$table, &$datainfo, $classname = '', $hasmetas = true, &$db = null)`（L67）。
 

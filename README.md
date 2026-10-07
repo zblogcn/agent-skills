@@ -1,4 +1,4 @@
-﻿# Z-BlogPHP Agent Skills
+# Z-BlogPHP Agent Skills
 
 面向 AI 编码助手（Claude Code / Cursor / Codex / Trae 等）的 Z-BlogPHP 开发技能。统一入口技能为 `zblogphp-agent-skills`，覆盖项目识别、主题、插件、模板、Hook、数据库、API、后台和安全开发。
 
@@ -69,15 +69,17 @@ zblogphp-agent-skills/
 │   ├── plugin.png                 # 插件默认 logo
 │   └── theme.png                  # 主题默认截图
 └── references/
-    ├── application-conventions.md
-    ├── zblogphp-project-triage/
-    ├── zblogphp-plugin-development/
-    ├── zblogphp-theme-development/
-    ├── zblogphp-hooks-reference/
-    ├── zblogphp-database/
-    ├── zblogphp-api/
-    ├── zblogphp-admin/
-    └── zblogphp-security/
+    ├── application-conventions.md            # 主题与插件共同约定
+    ├── zblogphp-project-triage-SKILL.md      # 项目识别
+    ├── zblogphp-plugin-development-SKILL.md  # 插件开发
+    ├── zblogphp-plugin-development-*.md      # 插件参考（结构/生命周期/配置/管理页）
+    ├── zblogphp-theme-development-SKILL.md   # 主题开发
+    ├── zblogphp-theme-development-*.md       # 主题参考（结构/模板/变量/侧栏等）
+    ├── zblogphp-hooks-reference-*.md         # Hook 钩子参考
+    ├── zblogphp-database-*.md                # 数据库参考
+    ├── zblogphp-api-*.md                     # API 参考
+    ├── zblogphp-admin-*.md                   # 后台参考
+    └── zblogphp-security-*.md                # 安全参考
 ```
 
 ## 适用版本

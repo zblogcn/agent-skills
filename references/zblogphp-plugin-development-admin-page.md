@@ -73,6 +73,6 @@ RunTime();
   - `CheckIsRefererValid()` + 表单隐藏域 `csrfToken`（`$zbp->GetCSRFToken()`）；
   - `$zbp->ValidToken(GetVars('token', 'POST'), 'ID')` + `$zbp->GetToken('ID')`。
 - **后台布局**：`admin_header.php` + `admin_top.php` + `#divMain`（`.divHeader` / `.SubMenu` / `#divMain2`）+ `admin_footer.php`，最后调用 `RunTime()`。
-- **导航高亮与图标**：`ActiveLeftMenu("aPluginMng")` 让左侧「插件管理」菜单高亮；`AddHeaderIcon()` 使用插件默认 `logo.png`。功能图标写法见[图标参考](../zblogphp-admin/icons.md)。
-- **子菜单**：挂接 `Filter_Plugin_Admin_LeftMenu`，在回调中用 `MakeLeftMenu()` 向左侧导航添加入口；完整写法见 [菜单参考](../zblogphp-admin/menus.md)。
+- **导航高亮与图标**：`ActiveLeftMenu("aPluginMng")` 让左侧「插件管理」菜单高亮；`AddHeaderIcon()` 使用插件默认 `logo.png`。功能图标写法见[图标参考](zblogphp-admin-icons.md)。
+- **子菜单**：挂接 `Filter_Plugin_Admin_LeftMenu`，在回调中用 `MakeLeftMenu()` 向左侧导航添加入口；完整写法见 [菜单参考](zblogphp-admin-menus.md)。
 - **多页面插件**：path 只指定主入口；其余页面各自都是独立 PHP 文件，同样要做权限与 `CheckPlugin` 检查，页面间用相对链接互跳。

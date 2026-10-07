@@ -33,7 +33,7 @@ Z-BlogPHP 插件生命周期（机制代码均在 `zb_system/function/c_system_p
 
 ## include.php 标准写法
 
-在[共同约定](../application-conventions.md)的应用副本中补充以下生命周期逻辑；示例也供模板缺失时回退。`MyPlugin` 为占位 ID，头像钩子和配置项按目标功能替换：
+在[共同约定](application-conventions.md)的应用副本中补充以下生命周期逻辑；示例也供模板缺失时回退。`MyPlugin` 为占位 ID，头像钩子和配置项按目标功能替换：
 
 ```php
 <?php
