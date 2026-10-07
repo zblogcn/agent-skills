@@ -24,8 +24,8 @@
 {$article.Time('Y-m-d')}          → echo $article->Time('Y-m-d');   （方法调用）
 {$zbp->name}                      → echo $zbp->name;                （对象属性写法）
 {$option['ZC_BLOG_NAME']}         → echo $option['ZC_BLOG_NAME'];
-{$lang['msg']['author']}          → echo $lang['msg']['author'];
-{$lang['default']['reply']}
+{$lang['msg']['author']}          → echo $lang['msg']['author'];       （系统语言包）
+{$lang['主题ID']['reply']}         → echo $lang['主题ID']['reply'];      （主题自定义语言包）
 {$modules['navbar'].Content}      → echo $modules['navbar']->Content;
 {$comment.Author.StaticName}
 ```
@@ -147,7 +147,7 @@
 | `{$zbp}` | ZBlogPHP 全局对象（`{$zbp->name}`、`{$zbp->host}` 等） |
 | `{$user}` | 当前登录用户（Member 对象） |
 | `{$option}` | 站点配置数组（数据库密码等敏感键已被剔除） |
-| `{$lang}` / `{$langs}` | 语言数组，`{$lang['msg']['xxx']}`、`{$lang['default']['xxx']}` |
+| `{$lang}` / `{$langs}` | 语言数组。系统语言包用 `{$lang['msg']['xxx']}`；主题语言包用 `{$lang['主题ID']['xxx']}`（由激活函数 `$zbp->LoadLanguage('theme', '主题ID')` 加载，键名见主题 `language/` 下的文件） |
 | `{$version}` | 系统版本 |
 | `{$categories}` / `{$categoriesbyorder}` / `{$categories_all}` / `{$categorys}`（别名） | 分类数组 |
 | `{$modules}` | 模块数组（按文件名索引，`$modulesbyfilename`） |
@@ -163,6 +163,20 @@
 | `{$zblogphp}` `{$zblogphphtml}` `{$copyright}` `{$language}` | 版本署名等 |
 
 页面级变量（由 c_system_route.php 的 ViewList/ViewPost/ViewSearch 注入）见 template-hierarchy.md。
+
+## SEO 标签需自行实现
+
+系统不提供 keywords、description、canonical 等 SEO 标签，模板里也没有对应内建标签；`{$header}` 只汇总系统和插件注入的头部代码（系统自身仅在搜索、404 等页面追加 `noindex` 的 robots meta）。
+
+主题需要 SEO 时在 `header.php` 自行编写，按页面类型从现有变量取值，例如：
+
+```html
+<title>{$title}_{$name}</title>
+<meta name="keywords" content="{if $type=='article'}{foreach $article.Tags as $tag}{$tag.Name},{/foreach}{else}{$name}{/if}" />
+<meta name="description" content="{if $type=='article'}{$article.Intro}{else}{$subname}{/if}" />
+```
+
+文章摘要 `{$article.Intro}`、标签 `$article.Tags`、分类名 `{$article.Category.Name}` 等都可直接使用；更复杂的规则（自定义 SEO 字段、按页面类型区分）在主题 `include.php` 中挂接页面 Hook 生成变量后再在模板输出，见 theme-functions.md。
 
 ## 常见坑
 
