@@ -62,8 +62,9 @@ zblogphp-agent-skills/
 ├── SKILL.md
 ├── README.md
 ├── scripts/
-│   ├── create_app.py          # 主题/插件骨架生成器
-│   └── skeleton/              # AppCentre 骨架副本（include.html、main.html、plugin.png、theme.png）
+│   ├── create_app.py              # 主题/插件骨架生成器
+│   ├── detect_zblog_project.mjs   # 站点/插件/主题目录识别脚本
+│   └── skeleton/                  # AppCentre 骨架副本（include.html、main.html、plugin.png、theme.png）
 └── references/
     ├── application-conventions.md
     ├── zblogphp-project-triage/

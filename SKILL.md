@@ -62,7 +62,7 @@ examples_en:
 
 | 当前任务 | 先读的参考 |
 |---|---|
-| 项目结构不明、需要识别站点根/插件/主题 | `references/zblogphp-project-triage/SKILL.md`；需要脚本时使用同目录 `detect_zblog_project.mjs` |
+| 项目结构不明、需要识别站点根/插件/主题 | `references/zblogphp-project-triage/SKILL.md`；需要脚本时使用 `scripts/detect_zblog_project.mjs` |
 | 新建、修改或排查插件 | `references/zblogphp-plugin-development/SKILL.md`；再按需读同目录资料 |
 | 新建、修改或排查主题、模板、侧栏 | `references/zblogphp-theme-development/SKILL.md`；再按需读同目录资料 |
 | 查询或使用 Filter 钩子 | `references/zblogphp-hooks-reference/SKILL.md`；再按需读同目录资料 |
