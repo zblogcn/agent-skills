@@ -1,4 +1,4 @@
-# 主题与插件共同约定
+﻿# 主题与插件共同约定
 
 主题、插件开发的共同规则集中维护于此，专题资料补充各领域的实现细节。
 
@@ -31,12 +31,12 @@ return array(
 
 激活函数声明 `global $zbp;` 后调用 `$zbp->LoadLanguage('plugin', 'ID')` 或 `$zbp->LoadLanguage('theme', 'ID')`。系统从对应应用的 `language/` 读取语言 PHP 文件（文件名匹配 `/^([0-9A-Z\-_]*)\.php$/ui`），按 `ZC_BLOG_LANGUAGEPACK → zh-cn → zh-tw → en` 回退，内容进入 `$zbp->lang['ID']`。
 
-PHP 页面用 `$zbp->lang['ID']['key']`，主题模板用 `{$lang['ID']['key']}`，或按 [主题变量注入示例](zblogphp-theme-development/references/theme-functions.md) 使用 `{$msg.key}`；JS 文案通过 JSON 传入。复制的骨架中应用自有固定文案也改为语言包引用。
+PHP 页面用 `$zbp->lang['ID']['key']`，主题模板用 `{$lang['ID']['key']}`，或按 [主题变量注入示例](zblogphp-theme-development/theme-functions.md) 使用 `{$msg.key}`；JS 文案通过 JSON 传入。复制的骨架中应用自有固定文案也改为语言包引用。
 
 ## 图片、图标与 SVG
 
 - 页面和功能代码不使用 SVG，包括 `.svg` 文件、内联 `<svg>`、SVG data URI 和输出 SVG 的图标组件。
-- 界面图标使用 icon 字体，优先使用 `zb_system/image/icon/icon.css?v=173540`，也可以使用其他 icon 字体库的字体/CSS 版本；加载方式和类名见 [图标参考](zblogphp-admin/references/icons.md)。功能所需普通图片由用户上传非 SVG 素材。
+- 界面图标使用 icon 字体，优先使用 `zb_system/image/icon/icon.css?v=173540`，也可以使用其他 icon 字体库的字体/CSS 版本；加载方式和类名见 [图标参考](zblogphp-admin/icons.md)。功能所需普通图片由用户上传非 SVG 素材。
 
 ## 读取与交付边界
 

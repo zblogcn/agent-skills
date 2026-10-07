@@ -1,8 +1,8 @@
-# 项目识别
+﻿# 项目识别
 
 ## 实现流程
 
-运行 scripts/detect_zblog_project.mjs 目录路径，或按下列确定性标志手工判断：
+运行 detect_zblog_project.mjs 目录路径，或按下列确定性标志手工判断：
 
 - 站点根：同时存在 zb_system、zb_users 和 zb_system/function/c_system_base.php
 - 插件目录：存在 plugin.xml，且 id 与目录名一致，并位于 zb_users/plugin/ 下

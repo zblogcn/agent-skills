@@ -1,9 +1,9 @@
-# Hook 参考
+﻿# Hook 参考
 
 ## 实现流程
 
-1. 按扩展点类别读取 references/hooks-core.md、hooks-admin.md、hooks-view.md 或 hooks-data.md。
-2. 用 references/using-hooks.md 的规范注册：先 RegisterPlugin，再在 ActivePlugin_xxx 中 Add_Filter_Plugin。
+1. 按扩展点类别读取 hooks-core.md、hooks-admin.md、hooks-view.md 或 hooks-data.md。
+2. 用 using-hooks.md 的规范注册：先 RegisterPlugin，再在 ActivePlugin_xxx 中 Add_Filter_Plugin。
 3. 回写参数声明引用符号；需要宿主提前返回时设置对应的 PLUGIN_EXITSIGNAL_RETURN 或 BREAK 信号。
 4. Hook 任务需要后台、数据库、API 或安全知识时，再读取对应专题目录。
 

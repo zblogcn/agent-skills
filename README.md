@@ -1,4 +1,4 @@
-# Z-BlogPHP Agent Skills
+﻿# Z-BlogPHP Agent Skills
 
 面向 AI 编码助手（Claude Code / Cursor / Codex / Trae 等）的 Z-BlogPHP 开发技能。统一入口技能为 `zblogphp-agent-skills`，覆盖项目识别、主题、插件、模板、Hook、数据库、API、后台和安全开发。
 

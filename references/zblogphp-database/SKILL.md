@@ -1,10 +1,10 @@
-# 数据库开发
+﻿# 数据库开发
 
 Z-BlogPHP 数据访问分为 DbSql 查询构造器、Base 模型和 Config/Metas 键值扩展三层。
 
 ## 实现流程
 
-1. 读取 references/models.md、dbsql.md、config-metas.md 或 schema.md，按数据对象和操作类型选资料。
+1. 读取 models.md、dbsql.md、config-metas.md 或 schema.md，按数据对象和操作类型选资料。
 2. 单个实体优先使用 Base 模型；条件列表使用 GetPostList 等封装；复杂查询或自定义表使用 DbSql 与 db 操作。
 3. SQL 表名使用 %pre% 或 $zbp->table，值走 DbSql 的转义路径；不要拼接外部输入。Config 写入后调用 SaveConfig，Metas 写入后保存外层对象。
 4. 写操作组合读取 ../zblogphp-security/，确认权限与 CSRF；需要 API 输出时组合读取 ../zblogphp-api/。

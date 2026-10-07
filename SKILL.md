@@ -1,4 +1,4 @@
----
+﻿---
 name: zblogphp-agent-skills
 version: 1.0.0
 display_name: Z-Blog PHP 主题与插件开发
@@ -62,13 +62,13 @@ examples_en:
 
 | 当前任务 | 先读的参考 |
 |---|---|
-| 项目结构不明、需要识别站点根/插件/主题 | `references/zblogphp-project-triage/SKILL.md`；需要脚本时使用同目录 `scripts/detect_zblog_project.mjs` |
-| 新建、修改或排查插件 | `references/zblogphp-plugin-development/SKILL.md`；再按需读插件 references |
-| 新建、修改或排查主题、模板、侧栏 | `references/zblogphp-theme-development/SKILL.md`；再按需读主题 references |
-| 查询或使用 Filter 钩子 | `references/zblogphp-hooks-reference/SKILL.md`；再按需读其 `references/` |
-| 数据库、SQL、模型、Config、Meta | `references/zblogphp-database/SKILL.md`；再按需读其 `references/` |
-| API、`mod`、`act`、`ApiDispatch` | `references/zblogphp-api/SKILL.md`；再按需读其 `references/` |
-| 后台页面、菜单、命令、CSRF token | `references/zblogphp-admin/SKILL.md`；再按需读其 `references/` |
-| XSS、SQL 注入、CSRF、权限和转义 | `references/zblogphp-security/SKILL.md`；再按需读其 `references/` |
+| 项目结构不明、需要识别站点根/插件/主题 | `references/zblogphp-project-triage/SKILL.md`；需要脚本时使用同目录 `detect_zblog_project.mjs` |
+| 新建、修改或排查插件 | `references/zblogphp-plugin-development/SKILL.md`；再按需读同目录资料 |
+| 新建、修改或排查主题、模板、侧栏 | `references/zblogphp-theme-development/SKILL.md`；再按需读同目录资料 |
+| 查询或使用 Filter 钩子 | `references/zblogphp-hooks-reference/SKILL.md`；再按需读同目录资料 |
+| 数据库、SQL、模型、Config、Meta | `references/zblogphp-database/SKILL.md`；再按需读同目录资料 |
+| API、`mod`、`act`、`ApiDispatch` | `references/zblogphp-api/SKILL.md`；再按需读同目录资料 |
+| 后台页面、菜单、命令、CSRF token | `references/zblogphp-admin/SKILL.md`；再按需读同目录资料 |
+| XSS、SQL 注入、CSRF、权限和转义 | `references/zblogphp-security/SKILL.md`；再按需读同目录资料 |
 
-以主任务选择专题，跨领域只补读实际需要的资料。专题 `SKILL.md` 是领域流程说明，专题 `references/` 是按需细节，无需一次读完。
+以主任务选择专题，跨领域只补读实际需要的资料。专题 `SKILL.md` 是领域流程说明，同目录的其他 `.md` 是按需细节，无需一次读完。

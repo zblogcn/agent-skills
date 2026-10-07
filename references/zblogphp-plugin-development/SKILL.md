@@ -1,22 +1,22 @@
-# 插件开发
+﻿# 插件开发
 
 ## 实现流程
 
 ### 1. 创建插件骨架
 
-确保已按主技能 `SKILL.md` 的「全局配置」完成 `config.local.md`（含应用 ID、名称、作者等）。用 `scripts/create_app.py` 生成骨架（命令见 [plugin-structure.md](references/plugin-structure.md#新建方式)），脚本会自动从 `config.local.md` 读取 ID、名称、作者、作者网站，无需重复传参；命令行参数可覆盖配置值。脚本会创建目录、plugin.xml、include.php、logo.png、main.php 和三份语言包；plugin.xml 各字段含义查 [plugin-structure.md](references/plugin-structure.md)。
+确保已按主技能 `SKILL.md` 的「全局配置」完成 `config.local.md`（含应用 ID、名称、作者等）。用 `scripts/create_app.py` 生成骨架（命令见 [plugin-structure.md](plugin-structure.md#新建方式)），脚本会自动从 `config.local.md` 读取 ID、名称、作者、作者网站，无需重复传参；命令行参数可覆盖配置值。脚本会创建目录、plugin.xml、include.php、logo.png、main.php 和三份语言包；plugin.xml 各字段含义查 [plugin-structure.md](plugin-structure.md)。
 
 ### 2. 注册与生命周期
 
-在 include.php 中用 RegisterPlugin() 注册激活函数，在激活函数中用 Add_Filter_Plugin() 挂钩；按需实现 InstallPlugin_{ID} 和 UninstallPlugin_{ID}。详细加载时机、信号量和骨架见 references/lifecycle.md。
+在 include.php 中用 RegisterPlugin() 注册激活函数，在激活函数中用 Add_Filter_Plugin() 挂钩；按需实现 InstallPlugin_{ID} 和 UninstallPlugin_{ID}。详细加载时机、信号量和骨架见 lifecycle.md。
 
 ### 3. 配置
 
-用 Config('ID')->key = value 写入内存，随后 $zbp->SaveConfig('ID') 持久化；禁用时按需求调用 $zbp->DelConfig('ID')。完整方法见 references/config.md。
+用 Config('ID')->key = value 写入内存，随后 $zbp->SaveConfig('ID') 持久化；禁用时按需求调用 $zbp->DelConfig('ID')。完整方法见 config.md。
 
 ### 4. 后台管理页
 
-按 [admin-page.md](references/admin-page.md) 处理管理页权限、插件启用状态、CSRF、后台页头尾和重定向。
+按 [admin-page.md](admin-page.md) 处理管理页权限、插件启用状态、CSRF、后台页头尾和重定向。
 
 ## 按症状排错
 
