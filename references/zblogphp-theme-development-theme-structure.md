@@ -35,6 +35,35 @@ zb_users/theme/{主题ID}/
 - `template/` 下可直接放 `.php` 模板文件；也可建子目录放模板（引擎 `GetAllFileDir` 递归收集）。
 - 编译产物输出到 `zb_users/cache/compiled/{主题ID}/`，不要手动改那里。
 
+## 模板文件结构（header/footer 与入口模板的分工）
+
+文档骨架（`<!DOCTYPE html>`、`<html>`、`<head>` 开闭、`<body>` 开标签）写在每个入口模板（`index.php`、`single.php`、`search.php`、`404.php` 等）里；`header.php` 被 `{template:header}` 嵌入 `<head>` 内部，只写 head 内部标签，不允许出现文档骨架开标签：
+
+```html
+<!DOCTYPE html>
+<html lang="{$language}">
+<head>
+{template:header}
+</head>
+<body class="{$type}">
+<!-- 页面内容 -->
+{template:footer}
+```
+
+`header.php` 只能是这样的片段（charset、viewport、title、SEO meta、样式表和 `{$header}`）：
+
+```html
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{$title}_{$name}</title>
+<meta name="keywords" content="{if $type=='article'}{foreach $article.Tags as $tag}{$tag.Name},{/foreach}{else}{$name}{/if}" />
+<meta name="description" content="{if $type=='article'||$type=='page'}{$article.Intro}{else}{$subname}{/if}" />
+<link rel="stylesheet" type="text/css" href="{$host}zb_users/theme/{$theme}/style/style.css" />
+{$header}
+```
+
+`footer.php` 放页底内容并负责闭合文档：以 `{$footer}</body></html>` 结尾。`{$header}`、`{$footer}` 两个标签必须保留（见 template-syntax.md 内建变量表）。
+
 ## 语言包
 
 文件格式、加载及 PHP、模板和 JS 的文案引用见[共同语言包约定](application-conventions.md#语言包)。

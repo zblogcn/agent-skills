@@ -53,6 +53,7 @@
 
 - `名字` 不含 `.php` 后缀；实际 include 的是编译产物路径。
 - `GetTemplate()`（L148-160）触发钩子 `Filter_Plugin_Template_GetTemplate`，插件/主题可借此重写任意子模板路径（返回自定义文件路径）。
+- 被引用的片段必须是自身完整的片段，不携带跨文件的文档骨架开标签：`header.php` 只写 `<head>` 内部标签（meta、title、`{$header}`），`<!DOCTYPE html>`、`<html>`、`<head>` 开闭和 `<body>` 写在各入口模板里，分工见 theme-structure.md「模板文件结构」。
 - 首页模板可组合 `{template:header}`、`{template:post-multi}`、`{template:pagebar}`、`{template:sidebar}`、`{template:footer}`。
 
 ## 模块 `{module:文件名}`（parse_module，L448-451）
@@ -173,7 +174,7 @@
 ```html
 <title>{$title}_{$name}</title>
 <meta name="keywords" content="{if $type=='article'}{foreach $article.Tags as $tag}{$tag.Name},{/foreach}{else}{$name}{/if}" />
-<meta name="description" content="{if $type=='article'}{$article.Intro}{else}{$subname}{/if}" />
+<meta name="description" content="{if $type=='article'||$type=='page'}{$article.Intro}{else}{$subname}{/if}" />
 ```
 
 文章摘要 `{$article.Intro}`、标签 `$article.Tags`、分类名 `{$article.Category.Name}` 等都可直接使用；更复杂的规则（自定义 SEO 字段、按页面类型区分）在主题 `include.php` 中挂接页面 Hook 生成变量后再在模板输出，见 theme-functions.md。
