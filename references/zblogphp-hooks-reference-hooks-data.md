@@ -1,4 +1,4 @@
-﻿# 数据操作 / 对象方法 / 上传 / XML-RPC / API 类钩子
+# 数据操作 / 对象方法 / 上传 / XML-RPC / API 类钩子
 
 涵盖数据写入/删除的 `_Core` 与 `_Succeed` 系列、对象方法拦截（`Post_*` / `Category_*` / `Tag_*` / `Member_*` / `Comment_*` / `Module_*` / `Upload_*`）、`Upload` 文件操作、登录/登出、插件启用禁用、XML-RPC 与 API。所有钩子集中注册于 `zb_system/function/c_system_plugin.php`（行号即该文件行号）。
 

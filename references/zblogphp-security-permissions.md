@@ -1,4 +1,4 @@
-﻿# 权限控制：actions 表与 CheckRights
+# 权限控制：actions 表与 CheckRights
 
 来源：`zb_system/defend/actions.php`、`zb_system/function/c_system_base.php`、`zb_system/function/lib/zblogphp.php`（CheckRights / RegAction）（1.7.5.3540）。
 

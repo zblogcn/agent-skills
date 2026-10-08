@@ -1,4 +1,4 @@
-﻿# CSRF Token 机制与 Referer 校验
+# CSRF Token 机制与 Referer 校验
 
 来源：`zb_system/function/lib/zblogphp.php`（GetCSRFToken / VerifyCSRFToken）、`zb_system/function/c_system_common.php`（CheckIsRefererValid / CheckCSRFTokenValid / BuildSafeURL）、`zb_system/cmd.php`（1.7.5.3540）。
 

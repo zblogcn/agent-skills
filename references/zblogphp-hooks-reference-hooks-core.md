@@ -1,4 +1,4 @@
-﻿# 核心 / 系统类钩子
+# 核心 / 系统类钩子
 
 涵盖调试（Debug）、自动加载、HTTP 请求转换、日志、DbSql 以及 Zbp 主类的魔术方法与生命周期钩子。所有钩子集中注册于 `zb_system/function/c_system_plugin.php`（下文行号即该文件行号）。
 

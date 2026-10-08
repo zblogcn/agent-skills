@@ -1,4 +1,4 @@
-﻿# 模块与侧栏系统
+# 模块与侧栏系统
 
 模块（Module）是可复用的 HTML 块；侧栏（sidebar）是按顺序排列的一组模块。数据源：`zb_system/function/lib/module.php`、`modulebuilder.php`、`template.php` 的 `MakeTemplateTags`（L999-1028）。
 

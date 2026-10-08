@@ -1,4 +1,4 @@
-﻿# 主题 include.php：注册与钩子
+# 主题 include.php：注册与钩子
 
 主题与插件共用应用机制。include.php 在主题激活期间随**每次请求**加载（前台与后台）。在[共同约定](application-conventions.md)的应用副本中补充以下扩展逻辑；示例也供模板缺失时回退，`mytheme` 为占位 ID。
 

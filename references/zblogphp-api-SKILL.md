@@ -1,4 +1,4 @@
-﻿# API 开发
+# API 开发
 
 入口为 zb_system/api.php，按 mod 与 act 调度到函数 api_{mod}_{act}()。
 

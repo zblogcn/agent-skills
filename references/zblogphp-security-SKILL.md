@@ -1,4 +1,4 @@
-﻿# 安全开发
+# 安全开发
 
 Z-BlogPHP 安全模型围绕 CSRF/Referer 校验、FormatString 转义、DbSql 参数化和 action 权限控制。
 

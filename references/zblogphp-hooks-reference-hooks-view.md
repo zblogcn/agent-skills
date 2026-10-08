@@ -1,4 +1,4 @@
-﻿# 前台展示类钩子
+# 前台展示类钩子
 
 涵盖 index.php / search.php / feed.php 入口、ViewIndex / ViewList / ViewPost / ViewSearch / ViewFeed / ViewAuto / ViewComment(s) 等视图输出，以及 GetPost / GetList 结果与模块/模板编译。所有钩子集中注册于 `zb_system/function/c_system_plugin.php`（行号即该文件行号）。
 

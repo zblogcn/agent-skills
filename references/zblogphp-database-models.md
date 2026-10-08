@@ -1,4 +1,4 @@
-﻿# Base 模型与 CRUD
+# Base 模型与 CRUD
 
 源码：`zb_system/function/lib/base.php`（类 `Base`）。
 子类：`zb_system/function/lib/` 下的 `post.php`（Post）、`category.php`（Category）、`tag.php`（Tag）、`member.php`（Member）、`comment.php`（Comment）、`module.php`（Module）、`upload.php`（Upload）等，均继承 Base。

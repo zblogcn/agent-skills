@@ -1,4 +1,4 @@
-﻿# DbSql 查询构造器
+# DbSql 查询构造器
 
 源码：`zb_system/function/lib/dbsql.php`（类 `DbSql`）。
 SQL 方言：`zb_system/function/lib/sql/global.php`（`SQL__Global`），子类 `SQL__MySQL` / `SQL__SQLite` / `SQL__PostgreSQL`（同目录 mysql.php / sqlite.php / postgresql.php）。

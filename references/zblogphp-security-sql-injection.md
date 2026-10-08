@@ -1,4 +1,4 @@
-﻿# SQL 注入防护
+# SQL 注入防护
 
 来源：`zb_system/function/lib/dbsql.php`、`zb_system/function/lib/sql/global.php`（1.7.5.3540）。
 

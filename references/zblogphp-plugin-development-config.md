@@ -1,4 +1,4 @@
-﻿# 插件配置存取（$zbp->Config / SaveConfig / DelConfig）
+# 插件配置存取（$zbp->Config / SaveConfig / DelConfig）
 
 Z-BlogPHP 为每个插件提供独立的键值配置空间，按插件 ID 隔离。API 实现位于 `zb_system/function/lib/zblogphp.php`：`Config()` L1349-1361、`SaveConfig()` L1312-1321、`DelConfig()` L1330-1340、`HasConfig()` L1370-1373。
 

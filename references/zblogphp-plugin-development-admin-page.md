@@ -1,4 +1,4 @@
-﻿# 插件后台管理页（path 字段与 main.php/setting.php）
+# 插件后台管理页（path 字段与 main.php/setting.php）
 
 ## path 字段的作用
 

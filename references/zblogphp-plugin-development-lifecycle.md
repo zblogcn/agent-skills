@@ -1,4 +1,4 @@
-﻿# 插件生命周期与 include.php 写法
+# 插件生命周期与 include.php 写法
 
 ## 生命周期总览
 

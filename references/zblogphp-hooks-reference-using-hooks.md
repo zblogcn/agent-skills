@@ -1,4 +1,4 @@
-﻿# 如何挂接钩子
+# 如何挂接钩子
 
 Z-BlogPHP 1.7.x 的插件钩子系统集中在 `zb_system/function/c_system_plugin.php`。本文说明插件挂接钩子的标准用法、引用传参与执行信号控制。
 

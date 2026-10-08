@@ -1,4 +1,4 @@
-﻿# 插件注册自定义 API 端点
+# 插件注册自定义 API 端点
 
 **先记住一个反直觉的事实：Z-BlogPHP 核心不会自动扫描插件目录下的 `api/` 子目录。** 系统 mod 目录（`$zbp->apimodsdir` = `zb_system/api/`）会被 `ApiLoadSystemMods` 自动扫描，但插件必须显式注册自己的 mod。注册有以下三种方式。
 

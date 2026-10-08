@@ -1,4 +1,4 @@
-﻿# Config 与 Metas 扩展字段
+# Config 与 Metas 扩展字段
 
 两者都是「键值 + 序列化」存储，但作用域不同：
 

@@ -1,4 +1,4 @@
-﻿# 后台开发
+# 后台开发
 
 Z-BlogPHP 后台由两层入口构成：zb_system/cmd.php 负责动作请求，zb_system/admin/ 负责页面渲染。扩展后台通过插件钩子完成，不改 zb_system 核心文件。
 

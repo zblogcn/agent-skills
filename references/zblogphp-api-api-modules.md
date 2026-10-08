@@ -1,4 +1,4 @@
-﻿# 系统自带 API mod 一览
+# 系统自带 API mod 一览
 
 mod 文件位于 `zb_system/api/`，共 9 个（由 `ApiLoadSystemMods` 扫描注册）。每个 act 对应文件内一个函数 `api_{mod}_{act}()`。以下 act 列表逐一取自 1.7.5.3540 源码（grep `^function api_` 结果）。
 

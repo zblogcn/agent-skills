@@ -1,4 +1,4 @@
-﻿---
+---
 name: zblogphp-agent-skills
 version: 1.0.0
 display_name: Z-Blog PHP 主题与插件开发

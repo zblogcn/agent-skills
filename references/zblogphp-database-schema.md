@@ -1,4 +1,4 @@
-﻿# 数据字典（schema 速查）
+# 数据字典（schema 速查）
 
 本文是已整理的 **Z-BlogPHP 1.7.5.3540** 表结构快照，开发时直接使用下文的数据字典。来源为 `zb_system/defend/datainfo.php`（字段定义，格式 `属性名 => array(真实列名, 类型, 长度, 默认值)`）、`zb_system/defend/table.php`（表名映射）和 `zb_system/defend/createtable/{mysql,sqlite,pgsql}.sql`（主键/索引）。这些路径仅用于溯源，不是重新读取或核实的步骤；其他版本的任务必需信息确实缺失时，按主技能的知识缺口规则处理。
 

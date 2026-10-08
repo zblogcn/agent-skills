@@ -1,4 +1,4 @@
-﻿# 后台管理类钩子
+# 后台管理类钩子
 
 涵盖登录页 / 后台首尾的 Header/Footer、左右侧导航、各管理页（文章、页面、分类、评论、会员、附件、标签、插件、主题、模块、设置）的 SubMenu、Core、Table 系列钩子，以及各编辑页（Edit_*）和 OutputOptionItemsOf* 系列。所有钩子集中注册于 `zb_system/function/c_system_plugin.php`（行号即该文件行号）。
 

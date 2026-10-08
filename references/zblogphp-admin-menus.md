@@ -1,4 +1,4 @@
-﻿# 左侧/顶部菜单钩子与子菜单注入
+# 左侧/顶部菜单钩子与子菜单注入
 
 来源：`zb_system/function/c_system_admin_function.php`（1.7.5.3540）。
 

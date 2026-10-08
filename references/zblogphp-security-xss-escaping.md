@@ -1,4 +1,4 @@
-﻿# XSS 转义与 HTML 过滤
+# XSS 转义与 HTML 过滤
 
 来源：`zb_system/function/c_system_common.php`（FormatString / htmlspecialchars_array）、`zb_system/function/lib/xsshtml.php`、`zb_system/function/lib/template.php`（1.7.5.3540）。
 
