@@ -37,7 +37,7 @@ zb_users/theme/{主题ID}/
 
 ## 模板文件结构（header/footer 与入口模板的分工）
 
-文档骨架（`<!DOCTYPE html>`、`<html>`、`<head>` 开闭、`<body>` 开标签）写在每个入口模板（`index.php`、`single.php`、`search.php`、`404.php` 等）里；`header.php` 被 `{template:header}` 嵌入 `<head>` 内部，只写 head 内部标签，不允许出现文档骨架开标签：
+文档骨架（`<!DOCTYPE html>`、`<html>`、`<head>` 开闭、`<body>` 开闭）写在每个入口模板（`index.php`、`single.php`、`search.php`、`404.php` 等）里，且骨架标签必须在入口模板内自闭合，不能拆到子模板：
 
 ```html
 <!DOCTYPE html>
@@ -46,11 +46,16 @@ zb_users/theme/{主题ID}/
 {template:header}
 </head>
 <body class="{$type}">
+{template:c_top}
+<main class="col-main">
 <!-- 页面内容 -->
+</main>
 {template:footer}
+</body>
+</html>
 ```
 
-`header.php` 只能是这样的片段（charset、viewport、title、SEO meta、样式表和 `{$header}`）：
+`header.php` 被 `{template:header}` 嵌入 `<head>` 内部，只写 head 内部标签，不允许出现文档骨架开标签，也不在里面留下未闭合的标签：
 
 ```html
 <meta charset="utf-8" />
@@ -62,7 +67,11 @@ zb_users/theme/{主题ID}/
 {$header}
 ```
 
-页面底部公共部分（版权信息、底部导航、返回顶部等）统一写进 `footer.php`，各入口模板末尾用 `{template:footer}` 引用，不在入口模板里重复书写；`footer.php` 负责闭合文档，以 `{$footer}</body></html>` 结尾。`{$header}`、`{$footer}` 两个标签必须保留（见 template-syntax.md 内建变量表）。
+页面顶部公共部分（站标、导航、侧边栏容器等）写进 `c_top.php`，页面底部公共部分（版权信息、底部导航、返回顶部等）写进 `footer.php`，各入口模板用 `{template:c_top}`、`{template:footer}` 引用，不在入口模板里重复书写。
+
+**所有子模板（`header.php`、`footer.php`、`c_*.php`）内的 HTML 标签必须在本文件内闭合，不允许出现开标签在一个文件、闭合标签在另一个文件的跨文件配对。** 例如 `c_top.php` 里开了 `<div class="columns">`，就必须在 `c_top.php` 内把它关掉，不能等 `footer.php` 再写 `</div>`；入口模板的 `<main>` 也必须在入口模板内闭合。
+
+`{$header}`、`{$footer}` 两个标签必须保留（见 template-syntax.md 内建变量表），分别放在 `header.php` 末尾和 `footer.php` 末尾，用于系统和插件注入头部/底部代码。
 
 ## 语言包
 

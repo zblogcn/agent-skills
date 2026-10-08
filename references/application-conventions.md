@@ -37,6 +37,8 @@ PHP 页面用 `$zbp->lang['ID']['key']`，主题模板用 `{$lang['ID']['key']}`
 
 主题模板和插件页面输出的 HTML 一律使用语义化标签：页面结构用 `header`、`nav`、`main`、`aside`、`article`、`section`、`footer`；文本内容用 `h1`~`h6`、`p`、`ul`/`ol`/`li`、`blockquote`、`time`、`figure`；表单用 `fieldset`、`label` 关联输入项，按钮用 `button`。不用无语义的 `div`/`span` 堆砌可由语义标签承担的结构，仅在没有对应语义时才用 `div`/`span` 配合 `class`。
 
+模板拆分时，每个文件内的 HTML 标签必须在本文件内闭合，不允许开标签写在一个文件、闭合标签写在另一个文件（例如不在 `c_top.php` 开 `<div>`、到 `footer.php` 才写 `</div>`）。文档骨架（`<!DOCTYPE html>`、`<html>`、`<head>`、`<body>` 及其闭合）只写在主题入口模板内，子模板（`header.php`、`footer.php`、`c_*.php`）只输出自身完整的片段。
+
 ## 图片、图标与 SVG
 
 - 页面和功能代码不使用 SVG，包括 `.svg` 文件、内联 `<svg>`、SVG data URI 和输出 SVG 的图标组件。
