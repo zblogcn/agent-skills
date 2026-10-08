@@ -33,6 +33,10 @@ return array(
 
 PHP 页面用 `$zbp->lang['ID']['key']`，主题模板用 `{$lang['ID']['key']}`，或按 [主题变量注入示例](zblogphp-theme-development-theme-functions.md) 使用 `{$msg.key}`；JS 文案通过 JSON 传入。复制的骨架中应用自有固定文案也改为语言包引用。
 
+## HTML 语义化
+
+主题模板和插件页面输出的 HTML 一律使用语义化标签：页面结构用 `header`、`nav`、`main`、`aside`、`article`、`section`、`footer`；文本内容用 `h1`~`h6`、`p`、`ul`/`ol`/`li`、`blockquote`、`time`、`figure`；表单用 `fieldset`、`label` 关联输入项，按钮用 `button`。不用无语义的 `div`/`span` 堆砌可由语义标签承担的结构，仅在没有对应语义时才用 `div`/`span` 配合 `class`。
+
 ## 图片、图标与 SVG
 
 - 页面和功能代码不使用 SVG，包括 `.svg` 文件、内联 `<svg>`、SVG data URI 和输出 SVG 的图标组件。
