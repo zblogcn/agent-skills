@@ -62,7 +62,7 @@ zb_users/theme/{主题ID}/
 {$header}
 ```
 
-`footer.php` 放页底内容并负责闭合文档：以 `{$footer}</body></html>` 结尾。`{$header}`、`{$footer}` 两个标签必须保留（见 template-syntax.md 内建变量表）。
+页面底部公共部分（版权信息、底部导航、返回顶部等）统一写进 `footer.php`，各入口模板末尾用 `{template:footer}` 引用，不在入口模板里重复书写；`footer.php` 负责闭合文档，以 `{$footer}</body></html>` 结尾。`{$header}`、`{$footer}` 两个标签必须保留（见 template-syntax.md 内建变量表）。
 
 ## 语言包
 
