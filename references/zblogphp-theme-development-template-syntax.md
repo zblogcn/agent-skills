@@ -54,6 +54,7 @@
 - `名字` 不含 `.php` 后缀；实际 include 的是编译产物路径。
 - `GetTemplate()`（L148-160）触发钩子 `Filter_Plugin_Template_GetTemplate`，插件/主题可借此重写任意子模板路径（返回自定义文件路径）。
 - 被引用的片段必须是自身完整的片段，不携带跨文件的文档骨架开标签：`header.php` 只写 `<head>` 内部标签（meta、title、`{$header}`），`<!DOCTYPE html>`、`<html>`、`<head>` 开闭和 `<body>` 写在各入口模板里，分工见 theme-structure.md「模板文件结构」。
+- 除系统惯用的 `post-*`、`comment*`、`module-*` 外，也可以把各页面重复的部分（导航、面包屑、文章卡片等）提取为自定义片段模板，如 `c_nav.php`，再用 `{template:c_nav}` 引用。`c_` 这类「字母+下划线」开头的文件名不会进入后台模板下拉框（规则见 template-hierarchy.md）。
 - 首页模板可组合 `{template:header}`、`{template:post-multi}`、`{template:pagebar}`、`{template:sidebar}`、`{template:footer}`。
 
 ## 模块 `{module:文件名}`（parse_module，L448-451）
