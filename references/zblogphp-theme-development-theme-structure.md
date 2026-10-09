@@ -58,13 +58,22 @@ zb_users/theme/{主题ID}/
 `header.php` 被 `{template:header}` 嵌入 `<head>` 内部，只写 head 内部标签，不允许出现文档骨架开标签，也不在里面留下未闭合的标签：
 
 ```html
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{$title}_{$name}</title>
-<meta name="keywords" content="{if $type=='article'}{foreach $article.Tags as $tag}{$tag.Name},{/foreach}{else}{$name}{/if}" />
-<meta name="description" content="{if $type=='article'||$type=='page'}{$article.Intro}{else}{$subname}{/if}" />
-<link rel="stylesheet" type="text/css" href="{$host}zb_users/theme/{$theme}/style/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta name="generator" content="{$zblogphp}" />
+<meta name="renderer" content="webkit">
+<title>{$name}-{$title}</title>
+<link rel="stylesheet" rev="stylesheet" href="{$host}zb_users/theme/{$theme}/style/{$style}.css?{$themeinfo['modified']}" type="text/css" media="all" />
+<script src="{$host}zb_system/script/jquery-latest.min.js?v={$version}"></script>
+<script src="{$host}zb_system/script/zblogphp.js?v={$version}"></script>
+<script src="{$host}zb_system/script/c_html_js_add.php?{if isset($html_js_hash)}hash={$html_js_hash}&{/if}v={$version}"></script>
+<script src="{$host}zb_users/theme/{$theme}/script/custom.js"></script>
 {$header}
+{if $type=='index'&&$page=='1'&&$option['ZC_XMLRPC_ENABLE']}
+<link rel="alternate" type="application/rss+xml" href="{$feedurl}" title="{$name}" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="{$host}zb_system/xml-rpc/?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{$host}zb_system/xml-rpc/wlwmanifest.xml" />
+{/if}
 ```
 
 页面顶部公共部分（站标、导航、侧边栏容器等）写进 `c_top.php`，页面底部公共部分（版权信息、底部导航、返回顶部等）写进 `footer.php`，各入口模板用 `{template:c_top}`、`{template:footer}` 引用，不在入口模板里重复书写。
