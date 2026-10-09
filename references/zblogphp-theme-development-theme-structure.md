@@ -67,7 +67,6 @@ zb_users/theme/{主题ID}/
 <script src="{$host}zb_system/script/jquery-latest.min.js?v={$version}"></script>
 <script src="{$host}zb_system/script/zblogphp.js?v={$version}"></script>
 <script src="{$host}zb_system/script/c_html_js_add.php?{if isset($html_js_hash)}hash={$html_js_hash}&{/if}v={$version}"></script>
-<script src="{$host}zb_users/theme/{$theme}/script/custom.js"></script>
 {$header}
 {if $type=='index'&&$page=='1'&&$option['ZC_XMLRPC_ENABLE']}
 <link rel="alternate" type="application/rss+xml" href="{$feedurl}" title="{$name}" />
