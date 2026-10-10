@@ -1,6 +1,6 @@
 ---
 name: zblogphp-agent-skills
-version: 1.0.0
+version: 1.0.1
 display_name: Z-Blog PHP 主题与插件开发
 display_name_en: Z-Blog PHP Theme & Plugin Development
 description: 当用户请求涉及 Z-Blog PHP、zblogphp、zblog、zbp、zb_system 或 zb_users 的插件、主题、模板、Hook、数据库、API、后台或安全开发时使用。统一识别项目并按需读取对应专题参考，创建和修改 Z-Blog PHP 应用。
