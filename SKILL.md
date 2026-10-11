@@ -70,5 +70,6 @@ examples_en:
 | API、`mod`、`act`、`ApiDispatch` | `references/zblogphp-api-SKILL.md`；再按需读同目录资料 |
 | 后台页面、菜单、命令、CSRF token | `references/zblogphp-admin-SKILL.md`；再按需读同目录资料 |
 | XSS、SQL 注入、CSRF、权限和转义 | `references/zblogphp-security-SKILL.md`；再按需读同目录资料 |
+| 危险函数、全局符号命名、phpver 兼容、资源本地化、前端多端适配等代码质量要求 | `references/zblogphp-code-quality.md` |
 
 以主任务选择专题，跨领域只补读实际需要的资料。专题 `zblogphp-*-SKILL.md` 是领域流程说明，同目录带相同前缀的其他 `.md` 是按需细节，无需一次读完。

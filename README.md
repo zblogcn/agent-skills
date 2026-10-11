@@ -53,7 +53,7 @@ python scripts/create_app.py -t plugin -i MyPlugin -n "示例插件" -a "作者"
 
 ## 主题与插件共同约定
 
-共同规则维护在 [`references/application-conventions.md`](references/application-conventions.md)，包括 PHP 文件守卫、三种语言包、icon 字体、禁止 SVG、交付边界等。
+共同规则维护在 [`references/application-conventions.md`](references/application-conventions.md)，包括 PHP 文件守卫、三种语言包、icon 字体、禁止 SVG、交付边界等。危险调用、全局符号命名、phpver 兼容、资源本地化和多端适配等硬性要求见 [`references/zblogphp-code-quality.md`](references/zblogphp-code-quality.md)。
 
 ## 目录结构
 
@@ -78,8 +78,9 @@ zblogphp-agent-skills/
     ├── zblogphp-hooks-reference-*.md         # Hook 钩子参考
     ├── zblogphp-database-*.md                # 数据库参考
     ├── zblogphp-api-*.md                     # API 参考
-    ├── zblogphp-admin-*.md                   # 后台参考
-    └── zblogphp-security-*.md                # 安全参考
+    ├── zblogphp-admin-*.md                     # 后台参考
+    ├── zblogphp-security-*.md                # 安全参考
+    └── zblogphp-code-quality.md              # 代码质量要求
 ```
 
 ## 适用版本
