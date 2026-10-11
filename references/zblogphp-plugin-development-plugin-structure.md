@@ -123,7 +123,7 @@ zb_users/plugin/{ID}/              # 按需扩展后的结构
 | `version` | 插件自身版本号（字符串，如 `2.85`） |
 | `pubdate` / `modified` | 发布/更新日期 |
 | `price` | 价格，`0` 为免费；>0 时启用前需应用中心购买验证 |
-| `phpver` | 要求的最低 PHP 版本，缺省视为 `5.2`；高于当前 PHP 版本则拒绝启用（L798-804） |
+| `phpver` | 要求的最低 PHP 版本，缺省视为 `5.2`；骨架默认写 `7.0`，新代码不再兼容 PHP 5；高于当前 PHP 版本则拒绝启用（L798-804）。语法与声明版本的对应见[代码质量要求](zblogphp-code-quality.md#php-版本兼容范围与-phpver-一致) |
 | `advanced/dependency` | 依赖的其他应用 ID，`\|` 分隔；依赖未启用则本插件不能启用（L819-830） |
 | `advanced/rewritefunctions` | 声明要重写的系统函数 |
 | `advanced/existsfunctions` | 要求已存在的函数名，`\|` 分隔；任一不存在则不能启用（L806-817） |

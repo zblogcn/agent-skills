@@ -1,6 +1,6 @@
 # 代码质量要求
 
-主题和插件编写时必须遵循以下质量要求，涵盖危险调用、全局命名、版本兼容、页面输出、资源引用和前端表现。规则本身是编码规范，不是为了通过某个检测而设；它们与官方自检工具 [zbp-app-validator](https://github.com/zblogcn/zbp-app-validator) 的检测项一致，完成后可用该工具本地自检。
+主题和插件编写时必须遵循以下质量要求，涵盖危险调用、全局命名、版本兼容、页面输出、资源引用和前端表现。规则本身是编码规范，不是为了通过某个检测而设。
 
 ## 禁止动态执行与命令执行
 
@@ -39,14 +39,12 @@ include.php 加载后进入全局空间的一切符号都要带应用 ID（XML �
 - `AddApiMods_{ID}()` 返回数组的键（API mod 名）必须以 `{ID}` 开头
 - 工具函数统一用 `{ID}_` 前缀或收进 `{ID}\` 命名空间，不在全局空间定义裸函数、裸常量
 
-注意命名空间需要 PHP 5.3+；XML 声明的 `<phpver>` 低于 5.3 时不要使用。
-
 ## PHP 版本兼容范围与 phpver 一致
 
-可运行的 PHP 版本范围由 XML 的 `<phpver>`（骨架默认 `5.2`）决定：
+可运行的 PHP 版本范围由 XML 的 `<phpver>` 决定，骨架默认写 `7.0`，即新代码不再兼容 PHP 5：
 
-- 代码只能使用该版本及以上支持的语法和函数。`<phpver>5.2</phpver>` 时不能用命名空间、闭包、短数组 `[]`、`??`、`::class` 等 5.3+ 特性。
-- 需要新语法或新版本函数时，先提高 `<phpver>` 再写代码，并保证声明范围内所有版本可运行。
+- `<phpver>7.0</phpver>` 时可以使用命名空间、闭包、短数组 `[]`、`??`、`::class`；但不能用 7.1+ 才有的可空参数类型（`?string`）、`void` 返回类型、`iterable`，以及 7.4/8.0 的箭头函数、命名参数、`match`、构造器属性提升、联合类型等。
+- 需要更高版本的语法或函数时，先提高 `<phpver>` 再写代码，并保证声明范围内所有版本可运行。
 - 修改已有应用时沿用原有的 `<phpver>`，不要擅自升降。
 
 ## 页面输出必须规范
@@ -73,7 +71,3 @@ CSS、JS、字体、图片等资源放在应用自己的目录内，用 `{$host}
 ## 检测工具覆盖不到、但仍须遵守
 
 工具只做静态分析和有限的页面实测，以下安全项没有自动检测，必须按安全专题执行：SQL 一律 DbSql 参数化（[SQL 注入防护](zblogphp-security-sql-injection.md)），输出按 [XSS 转义](zblogphp-security-xss-escaping.md)处理，后台操作做[权限校验](zblogphp-security-permissions.md)。
-
-## 本地自检
-
-需要时按仓库说明运行 [zbp-app-validator](https://github.com/zblogcn/zbp-app-validator)：Docker 方式 `docker build` 后 `docker run --rm --privileged -it`；本机直跑需要 Java 8 / PHP 8.1+ / Node 20+，执行 `php checker`。日常编写以本页要求为准，无需每次都跑。

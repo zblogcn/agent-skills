@@ -203,7 +203,7 @@ def build_plugin_xml(args):
 <pubdate>{TODAY}</pubdate>
 <modified>{TODAY}</modified>
 <price>0</price>
-<phpver>5.2</phpver>
+<phpver>7.0</phpver>
 <advanced>
   <dependency></dependency>
   <rewritefunctions></rewritefunctions>
@@ -256,7 +256,7 @@ def build_theme_xml(args):
 <pubdate>{TODAY}</pubdate>
 <modified>{TODAY}</modified>
 <price>0</price>
-<phpver>5.2</phpver>
+<phpver>7.0</phpver>
 <advanced>
   <dependency></dependency>
   <rewritefunctions></rewritefunctions>
