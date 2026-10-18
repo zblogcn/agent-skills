@@ -31,7 +31,9 @@ CONFIG_FILE = os.path.join(SKILL_ROOT, "config.local.md")
 
 TODAY = date.today().isoformat()
 
-# 适配的系统版本 build 号（参考 plugin-structure.md）
+# 适配的系统版本 build 号（参考 plugin-structure.md）。
+# 维护提醒：此值需随 Z-BlogPHP 版本更新（当前对应关系：adapted 173540 / phpver 7.0 ↔ ZBP 1.7.5），
+# 升级适配目标版本时手动核对此处和文档。
 DEFAULT_ADAPTED = "173540"  # 1.7.5
 
 
@@ -167,9 +169,18 @@ def build_include_php(app_id, app_type):
 # ---------------------------------------------------------------------------
 
 def build_main_php(app_id, app_name):
-    """基于 skeleton/main.html 生成后台管理/配置入口。"""
+    """基于 skeleton/main.html 生成后台管理/配置入口。
+
+    素材只有权限校验空壳；生成的文件末尾追加指向 admin-page.md 的注释，
+    提醒实现时参考完整范例（表单、CSRF、Config 读写），不要照抄空注释。
+    """
     tpl = read_skeleton("main.html")
-    return render(tpl, appid=app_id, appname=app_name)
+    body = render(tpl, appid=app_id, appname=app_name)
+    body += (
+        "\n// 注意：以上为官方骨架空壳，只有权限校验。实现配置页时参考 admin-page.md\n"
+        "// 「管理页标准骨架」：表单 + csrfToken 隐藏域 + $zbp->Config('ID') 读写 + SaveConfig。\n"
+    )
+    return body
 
 
 # ---------------------------------------------------------------------------
@@ -264,8 +275,8 @@ def build_theme_xml(args):
   <conflict></conflict>
 </advanced>
 <sidebars>
-  <sidebar1></sidebar1>
-  <sidebar2></sidebar2>
+  <sidebar1>calendar|controlpanel|catalog|previous|comments|archives|tags|link|misc</sidebar1>
+  <sidebar2>calendar|controlpanel|catalog|previous|comments|archives|tags|link|misc</sidebar2>
   <sidebar3></sidebar3>
   <sidebar4></sidebar4>
   <sidebar5></sidebar5>
@@ -331,6 +342,7 @@ def create_plugin(args):
     write_language_packs(app_dir)
 
     print(f"插件 {args.id} 创建完成。")
+    print("提醒：同类功能的多个插件必须独立实现，禁止复制既有插件换 ID、换名称。")
 
 
 def create_theme(args):
@@ -356,6 +368,8 @@ def create_theme(args):
 
     # template.json
     write_text(os.path.join(app_dir, "template.json"), build_template_json(args.id))
+    print("提醒：template.json 仅示范 index/single 两项；是否需要列表、分类、搜索、404 等")
+    print("      更多模板声明属于设计决策，filename 与 type 的对应关系见 theme-structure.md。")
 
     # style/style.css
     write_text(os.path.join(app_dir, "style", "style.css"), build_style_css(args.id))
@@ -368,6 +382,9 @@ def create_theme(args):
     write_language_packs(app_dir)
 
     print(f"主题 {args.id} 创建完成。")
+    print("提醒：template/ 目前为空。每个主题必须从空白模板独立设计——")
+    print("禁止复制既有主题换 ID（cp -r 套壳），禁止照搬结构只改 class 前缀和配色。")
+    print("先按目标站点的行业和内容确定信息架构（导航、栅格、列表与文章页排版），再写模板。")
 
 
 def main():

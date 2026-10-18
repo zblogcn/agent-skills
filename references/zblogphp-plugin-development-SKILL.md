@@ -16,7 +16,11 @@
 
 ### 4. 后台管理页
 
-按 [admin-page.md](zblogphp-plugin-development-admin-page.md) 处理管理页权限、插件启用状态、CSRF、后台页头尾和重定向。
+按 [admin-page.md](zblogphp-plugin-development-admin-page.md) 处理管理页权限、插件启用状态、CSRF、后台页头尾和重定向。注意脚本生成的 `main.php` 只有权限校验空壳（`<!--代码-->` 空注释），不要照抄空壳；实现配置页时按 admin-page.md「管理页标准骨架」补全表单、csrfToken 隐藏域和 `$zbp->Config` 读写。
+
+### 5. 交付前静态检查
+
+按 [共同约定「读取与交付边界」](application-conventions.md#读取与交付边界) 默认执行零成本静态检查并修复问题：全部 PHP 文件 `php -l`；语言包三包键一致且代码引用的语言键都有定义（用 `python scripts/check_lang_keys.py <插件目录>` 检查）；引用的本地资源路径存在、无站外资源。静态检查结果随交付说明一并汇报；运行时实测只在用户明确要求时进行（手段见 [本地开发与实测](zblogphp-local-testing.md)）。
 
 ## 按症状排错
 

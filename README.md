@@ -32,7 +32,14 @@
 | 应用名称 | name | <应用名称> |
 | 作者 | author-name | <作者> |
 | 作者网站 | author-url | <作者网站> |
+
+## 应用清单
+
+| 应用ID | 类型 | 名称 | 创建日期 | 备注 |
+|---|---|---|---|---|
 ```
+
+配置表是当前应用的生成参数；「应用清单」记录历史创建过的应用（生成后登记），新建前先查清单避免 ID 冲突，也用于确认站点已有同类应用、触发独立设计约束。
 
 每做一个新应用，需更新其中的应用 ID 和应用名称（作者、作者网站可沿用）。
 
@@ -63,6 +70,8 @@ zblogphp-agent-skills/
 ├── README.md
 ├── scripts/
 │   ├── create_app.py              # 主题/插件骨架生成器
+│   ├── check_template_tags.py     # 模板成对标签配平检查
+│   ├── check_lang_keys.py         # 语言包三包一致性检查
 │   ├── detect_zblog_project.mjs   # 站点/插件/主题目录识别脚本
 │   ├── include.html               # AppCentre 骨架模板
 │   ├── main.html                  # AppCentre 后台页骨架模板
@@ -80,7 +89,8 @@ zblogphp-agent-skills/
     ├── zblogphp-api-*.md                     # API 参考
     ├── zblogphp-admin-*.md                     # 后台参考
     ├── zblogphp-security-*.md                # 安全参考
-    └── zblogphp-code-quality.md              # 代码质量要求
+    ├── zblogphp-code-quality.md              # 代码质量要求
+    └── zblogphp-local-testing.md             # 本地开发与实测
 ```
 
 ## 适用版本

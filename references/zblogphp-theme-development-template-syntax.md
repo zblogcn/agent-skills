@@ -105,6 +105,8 @@
 {if (!$module.IsHideTitle)&&($module.Name)}...{else}...{/if}
 ```
 
+**漏写 `{/if}` 不会报错，必须配平。** 编译器用非贪婪正则配对，漏写闭合标签的开标签会一直吞到下一个出现的同类闭合标签，表现为某块内容静默消失、条件分支错乱，且无任何报错信息；`{foreach}`、`{for}`、`{while}`、`{php}` 同理。交付前用 `python scripts/check_template_tags.py <主题目录>` 检查配平（见流程「交付前静态检查」）。
+
 ## 循环 `{foreach}`（parse_foreach，L526-548）
 
 ```

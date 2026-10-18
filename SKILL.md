@@ -1,6 +1,6 @@
 ---
 name: zblogphp-agent-skills
-version: 1.0.1
+version: 1.0.2
 display_name: Z-Blog PHP 主题与插件开发
 display_name_en: Z-Blog PHP Theme & Plugin Development
 description: 当用户请求涉及 Z-Blog PHP、zblogphp、zblog、zbp、zb_system 或 zb_users 的插件、主题、模板、Hook、数据库、API、后台或安全开发时使用。统一识别项目并按需读取对应专题参考，创建和修改 Z-Blog PHP 应用。
@@ -8,11 +8,11 @@ description_zh: zblogphp主题、插件与扩展开发的统一入口。覆盖�
 description_en: Unified entry for zblogphp theme and plugin development. Covers skeleton generation, hooks, database & config, API, admin pages, security and permissions — routing each task to the right topic reference. Use when users mention Z-BlogPHP, zblogphp, zblog, zbp, zb_system, zb_users, or ask to build/modify plugins, themes, templates, hooks, APIs or admin features.
 examples_zh:
   - "帮我创建一个 Z-BlogPHP 插件"
-  - "开发一个新主题，要响应式的"
+  - "开发一个民宿主题"
   - "给插件加个 Filter 钩子"
 examples_en:
   - "Create a Z-BlogPHP plugin for me"
-  - "Build a responsive theme"
+  - "Build a guesthouse theme"
   - "Add a Filter hook to my plugin"
 ---
 
@@ -40,13 +40,23 @@ examples_en:
 | 应用名称 | name | <应用名称> |
 | 作者 | author-name | <作者> |
 | 作者网站 | author-url | <作者网站> |
+
+## 应用清单
+
+| 应用ID | 类型 | 名称 | 创建日期 | 备注 |
+|---|---|---|---|---|
+| <应用ID> | <plugin或theme> | <应用名称> | <日期> | <一句话用途/行业> |
 ```
 
 3. 写入后继续执行本次任务
 
 ### 新建应用前更新配置
 
-每创建一个新的插件或主题，都必须先更新 `config.local.md` 中的应用 ID 和应用名称（作者、作者网站通常不变，可沿用）。若沿用旧 ID 会导致生成的目录与已有应用冲突。更新后再执行 `scripts/create_app.py` 生成骨架。
+每创建一个新的插件或主题，按以下顺序执行：
+
+1. 先读 `config.local.md` 的「应用清单」：确认新应用 ID 不与已有应用重复；同一站点或作者已有同类型应用时，触发「系列应用独立性」约束（见 [application-conventions.md](references/application-conventions.md)），新应用必须独立设计，禁止套壳。
+2. 更新配置表中的应用 ID 和应用名称（作者、作者网站通常不变，可沿用）。若沿用旧 ID 会导致生成的目录与已有应用冲突。
+3. 生成骨架完成后，把新应用登记进「应用清单」，作为后续任务的既有应用记录。
 
 
 ## 总原则
@@ -54,6 +64,7 @@ examples_en:
 - 技能正文与按需读取的专题 references 是实现依据，已整理的知识直接使用，不回查核心源码、默认主题或其他插件/主题来核实。源码路径、行号和真实应用名称只是溯源或示例，不是读取清单。
 - 只读取任务目标文件、必要环境信息和功能所需参考，不扫描无关应用。
 - 涉及主题、插件的制作或修改时，先读一次 [主题与插件共同约定](references/application-conventions.md)，再按下表选择专题。共同约定适用于所有专题，跨领域时继续沿用。
+- 每个主题、插件必须独立设计实现：禁止复制既有应用换名套壳（`cp -r` 改 ID、照搬结构改前缀和配色）；新主题先做信息架构和设计语言，再写模板，汇报前确认与既有应用无复制关系（见共同约定「系列应用独立性」）。
 - 专题资料中的排错、验证和审计章节只在用户明确要求时使用；实现要点用于编写时参考。
 
 ## 一次识别与按需路由
@@ -71,5 +82,6 @@ examples_en:
 | 后台页面、菜单、命令、CSRF token | `references/zblogphp-admin-SKILL.md`；再按需读同目录资料 |
 | XSS、SQL 注入、CSRF、权限和转义 | `references/zblogphp-security-SKILL.md`；再按需读同目录资料 |
 | 危险函数、全局符号命名、phpver 兼容、资源本地化、前端多端适配等代码质量要求 | `references/zblogphp-code-quality.md` |
+| 本地实测、切换主题渲染、内置服务器、无头截图（仅用户明确要求测试/排错时） | `references/zblogphp-local-testing.md` |
 
 以主任务选择专题，跨领域只补读实际需要的资料。专题 `zblogphp-*-SKILL.md` 是领域流程说明，同目录带相同前缀的其他 `.md` 是按需细节，无需一次读完。

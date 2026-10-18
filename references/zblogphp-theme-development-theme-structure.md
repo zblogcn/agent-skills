@@ -129,9 +129,23 @@ zb_users/theme/{主题ID}/
 </sidebars>
 ```
 
-- 值可为空字符串，9 组均可留空。
+- 值可为空字符串，9 组均可留空。全部留空时启用主题不写入侧栏顺序，页面侧栏完全由当前数据库中的模块顺序决定，主题需要自行处理空侧栏的显示；骨架默认为 sidebar1、sidebar2 填入上面的标准预设，按目标站点取舍删减。
 - 列表中的模块文件名必须存在于 `$zbp->modulesbyfilename`（系统内置或插件/主题注册的模块），否则该位置被静默跳过（template.php `MakeTemplateTags` L1010-1023）。
 - 模块文件名清单与 `module.php` 模板见 modules-sidebars.md。
+
+## template.json 模板声明
+
+`templates` 数组每项为 `{ "filename": "xxx", "type": "...", "name": "显示名" }`，filename 对应 `template/` 下不含 `.php` 的文件名：
+
+| filename | type 写法 | 驱动的后台位置 |
+|---|---|---|
+| `index` | `list\|index` | 首页及默认列表页渲染 |
+| `single` | `single` | 文章/单页编辑的模板下拉 |
+| 自定义列表模板（任意名，如 `card`、`feed`） | 含 `list` 的组合（如 `list,category`） | 分类/标签/作者编辑的「模板」下拉（type 含 `list` 即出现） |
+
+- `type` 是页面类型列表，`|` 与 `,` 两种分隔在官方主题中都有使用，声明后按类型匹配进对应下拉框。
+- 是否声明更多模板（独立分类列表、搜索页、404 页等）属于设计决策，骨架只示范 `index`/`single` 两项；新增声明前对照官方主题的 template.json 核对 type 取值，不要凭猜测填写。
+- 声明了 filename 但 `template/` 下没有对应文件时，选择该模板的页面回落到默认模板。
 
 ## 与 plugin.xml 的关系
 
