@@ -86,6 +86,45 @@ function UninstallPlugin_MyPlugin()
 
 用配置里的标记位（如 `installed_version`）判断是否已初始化，不要用 `file_exists` 之类的代理条件。
 
+## 模块内容是数据库快照
+
+`RegBuildModule($filename, $func)` 只把生成函数登记进 `ModuleBuilder::$List`（zblogphp.php L2422-2425），不会生成内容。真正生成发生在重建时：`Module::Build()` 调用登记的函数，把返回值写入 `Content`，再由调用方 `Save()` 写库（`zb_system/function/lib/base/module.php` L228-245、`modulebuilder.php` L17-26）。前台 `{module:x}` 和 `{$modules['x'].Content}` 直接读数据库里的 `Content`（template.php L450），不是每次请求实时计算。
+
+因此：
+
+- **注册不等于生成**：`RegBuildModule` 之后不重建，模块表里没有记录或仍是旧内容，前台不会出现新模块或新条目。
+- **`$zbp->BuildModule()` 只处理已加入重建列表的模块**，并触发 `Filter_Plugin_Zbp_BuildModule` 回调。插件模块要先 `ModuleBuilder::Add($filename)` 才会被它重建；也可以直接对模块对象调用 `$module->Build(); $module->Save();`。
+- **重建前先加载语言包**：CLI、脚本或后台之外的请求首建模块时，若插件语言包尚未加载，生成函数里的 `$zbp->lang['ID'][...]` 取到空值，写进数据库的就是空文本，此后前台一直空白，直到下一次重建。
+- **内容变化用版本键触发**：模块内容只在重建时刷新，插件升级新增条目、调整 URL 生成规则、改语言文本都不会自动生效。
+
+```php
+function ActivePlugin_MyPlugin()
+{
+    global $zbp;
+    $zbp->LoadLanguage('plugin', 'MyPlugin');          // 先加载语言包
+    $zbp->RegBuildModule('myplugin_list', 'MyPlugin_BuildList');
+    MyPlugin_EnsureModules();                          // 再按版本键决定是否重建
+}
+
+function MyPlugin_EnsureModules()
+{
+    global $zbp;
+    $cfg = $zbp->Config('MyPlugin');
+    if ((string) $cfg->modules_version === '2') {      // 内容结构变化时上调版本号
+        return;
+    }
+
+    // 模块记录不存在时先按「模块与侧栏系统」创建，再执行下面的重建
+    ModuleBuilder::Add('myplugin_list');               // 加入本次重建列表
+    $zbp->BuildModule();                               // 重建并 Save
+
+    $cfg->modules_version = '2';                       // 重建完成后再标记版本
+    $zbp->SaveConfig('MyPlugin');
+}
+```
+
+版本键放在插件自己的配置里，不要依赖文件时间、缓存清理或用户手动点「重建」。每次影响模块内容的改动都上调版本号，老站点升级后的第一个请求重建一次；重建会遍历重建列表，不要在普通请求里无条件调用。先确保模块记录存在并完成重建，再写版本标记，否则记录缺失时版本已经写成新值，之后不会再重试。模块记录的创建方式见[模块与侧栏系统「主题/插件创建自定义模块」](zblogphp-theme-development-modules-sidebars.md#主题插件创建自定义模块)。
+
 ## include.php 标准写法
 
 在[共同约定](application-conventions.md)的应用副本中补充以下生命周期逻辑；示例也供模板缺失时回退。`MyPlugin` 为占位 ID，头像钩子和配置项按目标功能替换：

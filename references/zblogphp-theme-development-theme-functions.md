@@ -62,6 +62,30 @@ function mytheme_MakeTemplatetags(&$templateTags)
 
 模板中即可用 `{$cfg.Logo}`、`{foreach $sideMods as $m}` 等。注意该钩子在每次构建模板标签时执行，保持轻量。
 
+## 运行时追加导航条目
+
+`navbar` 模块的 `Content` 是数据库快照（见[模块与侧栏系统「常见坑」](zblogphp-theme-development-modules-sidebars.md#常见坑)），不要修改数据库里的导航内容，也不要假设后台「模块管理」里手工加过菜单。在 `Filter_Plugin_Zbp_MakeTemplatetags` 里对当前渲染用的模块对象追加条目：
+
+```php
+function mytheme_MakeTemplatetags(&$templateTags)
+{
+    global $zbp;
+    if (!isset($templateTags['modules']['navbar'])) {
+        return;
+    }
+    $navbar = $templateTags['modules']['navbar'];
+    $navbar->Content .= '<li class="nav-entry"><a href="'
+        . htmlspecialchars(mytheme_FrontUrl(), ENT_QUOTES) . '">'
+        . htmlspecialchars($zbp->lang['mytheme']['entry'], ENT_QUOTES) . '</a></li>';
+}
+```
+
+- `$templateTags['modules']` 是 `$zbp->modulesbyfilename` 的引用（template.php L971），模板里 `{module:navbar}` 读的就是它；改 `Content` 只影响本次渲染，不要调用 `Save()`。
+- `navbar` 的 `Type` 是 `ul`，追加的条目必须是 `<li>`；样式用主题自己的 class。
+- URL 用应用统一的生成函数，跟随站点 URL 模式，不要写死相对路径。
+- 不要用 `$zbp->AddItemToNavbar()` 持久化条目：它会写库、要求模块已存在，换主题后还会残留。
+- 回调里只做轻量字符串拼接，不查库、不重建模块。
+
 ## 主题常用钩子速查
 
 | 钩子 | 用途 |

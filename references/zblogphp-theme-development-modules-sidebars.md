@@ -52,7 +52,7 @@
 
 ## 系统内置模块文件名
 
-由 `$zbp->RegBuildModule()` 注册（zblogphp.php L2432-2440），内容每次动态生成：
+由 `$zbp->RegBuildModule()` 注册（zblogphp.php L2432-2440），生成函数在模块重建时写库，前台读取的是数据库里的 `Content` 快照：
 
 | FileName | 生成函数 | 内容 |
 |---|---|---|
@@ -78,6 +78,8 @@
 
 ## 常见坑
 
+- 模块 `Content` 是数据库快照：`RegBuildModule()` 只登记生成函数，内容要在重建时由 `Module::Build()` + `Save()` 写入；前台 `{module:x}` 读的是库里的旧内容。重建时机、语言包加载顺序和版本键做法见[插件生命周期「模块内容是数据库快照」](zblogphp-plugin-development-lifecycle.md#模块内容是数据库快照)。
+- 模块内容里保存链接时用绝对 URL，并用版本键跟随站点 URL 模式（`ZC_STATIC_MODE`）变化重建；不要存相对路径。
 - 在 theme.xml `<sidebars>` 里写了不存在（未注册/未创建）的模块文件名 → 该位置静默消失，检查后台模块管理中是否存在该 FileName。
 - 改了 `<sidebars>` 但前台没变 → 侧栏顺序只在**启用主题时**写入选项；已在用的站点需在后台"模块管理/侧栏"重新拖拽，或重新启用主题。
 - 想在某页显示不同侧栏：用 `{if $type=='index'}{template:sidebar}{else}{template:sidebar2}{/if}` 这类判断，或建独立的列表/单篇模板。

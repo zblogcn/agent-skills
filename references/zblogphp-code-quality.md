@@ -39,6 +39,14 @@ include.php 加载后进入全局空间的一切符号都要带应用 ID（XML �
 - `AddApiMods_{ID}()` 返回数组的键（API mod 名）必须以 `{ID}` 开头
 - 工具函数统一用 `{ID}_` 前缀或收进 `{ID}\` 命名空间，不在全局空间定义裸函数、裸常量
 
+### 不要覆盖全局 `$lang`
+
+`$lang` 是核心的全局语言树，后台页头/页脚在顶层直接引用它（`zb_system/admin/admin_header.php` L13 取 `$lang['lang_bcp47']`、L31 取 `$lang['msg']['error_load_js']`；`admin_top.php` L10/L16/L18 取 `$lang['msg']`），这些文件内没有 `global` 声明。
+
+- 禁止在插件或主题代码的全局作用域写 `$lang = $zbp->lang['MyPlugin'];`。这会把全局 `$lang` 整个替换成插件语言包，随后加载的后台页头取 `$lang['lang_bcp47']`、`$lang['msg']['submit']` 等全部缺失，表现为满屏 `Undefined array key "msg"`。
+- 插件语言包一律用 `$zbp->lang['MyPlugin']['key']` 访问；需要短名字时用带前缀的变量，如 `$myplugin_lang = $zbp->lang['MyPlugin'];`。
+- 后台管理页里连局部 `$lang` 也尽量不用，避免与页头文件的全局变量混淆。
+
 ## PHP 版本兼容范围与 phpver 一致
 
 可运行的 PHP 版本范围由 XML 的 `<phpver>` 决定，骨架默认写 `7.0`，即新代码不再兼容 PHP 5：

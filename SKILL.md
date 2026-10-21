@@ -1,6 +1,6 @@
 ---
 name: zblogphp-agent-skills
-version: 1.0.3
+version: 1.0.4
 display_name: Z-Blog PHP 主题与插件开发
 display_name_en: Z-Blog PHP Theme & Plugin Development
 description: 当用户请求涉及 Z-Blog PHP、zblogphp、zblog、zbp、zb_system 或 zb_users 的插件、主题、模板、Hook、数据库、API、后台或安全开发时使用。统一识别项目并按需读取对应专题参考，创建和修改 Z-Blog PHP 应用。
@@ -75,6 +75,7 @@ examples_en:
 |---|---|
 | 项目结构不明、需要识别站点根/插件/主题 | `references/zblogphp-project-triage-SKILL.md`；需要脚本时使用 `scripts/detect_zblog_project.mjs` |
 | 新建、修改或排查插件 | `references/zblogphp-plugin-development-SKILL.md`；再按需读同目录资料 |
+| 插件前台页面、URL 路由、前台登录与注册、入口可发现性 | `references/zblogphp-plugin-development-frontend-pages.md` |
 | 新建、修改或排查主题、模板、侧栏 | `references/zblogphp-theme-development-SKILL.md`；再按需读同目录资料 |
 | 查询或使用 Filter 钩子 | `references/zblogphp-hooks-reference-SKILL.md`；再按需读同目录资料 |
 | 数据库、SQL、模型、Config、Meta | `references/zblogphp-database-SKILL.md`；再按需读同目录资料 |

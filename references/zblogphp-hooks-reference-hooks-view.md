@@ -34,6 +34,8 @@
 | `Filter_Plugin_ViewList_Begin` | 1705 | `&$page, &$cate, &$auth, &$date, &$tags, &$isrewrite, &$object` | 列表输出接口 |
 | `Filter_Plugin_ViewList_Begin_V2` | 1716 | `&$array` | 同上，第 2 版（只传一个数组） |
 
+`Filter_Plugin_ViewAuto_Begin` 也是插件接管前台 URL 的入口：在回调里判断路径后 `SetPluginSignal(..., PLUGIN_EXITSIGNAL_RETURN)` 并输出页面。完整路由、登录注册和停用态写法见 [插件前台页面](zblogphp-plugin-development-frontend-pages.md)。
+
 ## 视图核心查询 Core
 
 | 钩子 | 行号 | 参数 | 说明 |
