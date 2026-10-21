@@ -105,7 +105,7 @@ zb_users/theme/{主题ID}/
 | `<version>` | 主题自身版本号 | `<version>1.7</version>` |
 | `<pubdate>` / `<modified>` | 发布/更新日期 | `<pubdate>2019-11-27</pubdate>` |
 | `<price>` | 售价（应用中心用，免费为 0） | `<price>0</price>` |
-| `<phpver>` | 最低 PHP 版本，骨架默认 `7.0` | `<phpver>7.0</phpver>` |
+| `<phpver>` | 最低 PHP 版本，骨架统一 `8.2` | `<phpver>8.2</phpver>` |
 | `<advanced>` | 高级约束，四个子字段均可留空：`<dependency>`（依赖的应用）、`<rewritefunctions>`（要求不存在的函数名，防冲突重写）、`<existsfunctions>`（要求已存在的函数）、`<conflict>`（冲突应用） | `<advanced><dependency></dependency><rewritefunctions></rewritefunctions><existsfunctions></existsfunctions><conflict></conflict></advanced>` |
 | `<sidebars>` | 启用主题时写入侧栏默认模块顺序 | 见下方完整示例 |
 

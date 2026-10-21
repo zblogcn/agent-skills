@@ -95,8 +95,8 @@ zblogphp-agent-skills/
 
 ## 适用版本
 
-- Z-Blog PHP 1.7.x（基于已整理的 1.7.5 资料）
-- PHP 5.6+（Z-Blog PHP 1.7 要求）
+- Z-Blog PHP 1.7.5
+- PHP 8.2+
 
 ## 官方资源
 

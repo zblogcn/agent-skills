@@ -32,7 +32,7 @@ CONFIG_FILE = os.path.join(SKILL_ROOT, "config.local.md")
 TODAY = date.today().isoformat()
 
 # 适配的系统版本 build 号（参考 plugin-structure.md）。
-# 维护提醒：此值需随 Z-BlogPHP 版本更新（当前对应关系：adapted 173540 / phpver 7.0 ↔ ZBP 1.7.5），
+# 维护提醒：此值需随 Z-BlogPHP 版本更新（当前对应关系：adapted 173540 ↔ ZBP 1.7.5），
 # 升级适配目标版本时手动核对此处和文档。
 DEFAULT_ADAPTED = "173540"  # 1.7.5
 
@@ -214,7 +214,7 @@ def build_plugin_xml(args):
 <pubdate>{TODAY}</pubdate>
 <modified>{TODAY}</modified>
 <price>0</price>
-<phpver>7.0</phpver>
+<phpver>8.2</phpver>
 <advanced>
   <dependency></dependency>
   <rewritefunctions></rewritefunctions>
@@ -267,7 +267,7 @@ def build_theme_xml(args):
 <pubdate>{TODAY}</pubdate>
 <modified>{TODAY}</modified>
 <price>0</price>
-<phpver>7.0</phpver>
+<phpver>8.2</phpver>
 <advanced>
   <dependency></dependency>
   <rewritefunctions></rewritefunctions>
