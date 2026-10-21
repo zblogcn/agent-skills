@@ -8,11 +8,11 @@
 
 ### 2. 注册与生命周期
 
-在 include.php 中用 RegisterPlugin() 注册激活函数，在激活函数中用 Add_Filter_Plugin() 挂钩；按需实现 InstallPlugin_{ID} 和 UninstallPlugin_{ID}。详细加载时机、信号量和骨架见 lifecycle.md。
+在 include.php 中用 RegisterPlugin() 注册激活函数，在激活函数中用 Add_Filter_Plugin() 挂钩；初始化写成激活函数里可重复执行的自愈检查（`InstallPlugin_{ID}` 可能不执行），并实现非破坏性的 `UninstallPlugin_{ID}`（停用即执行，默认保留数据）。详细加载时机、信号量和骨架见 lifecycle.md。
 
 ### 3. 配置
 
-用 Config('ID')->key = value 写入内存，随后 $zbp->SaveConfig('ID') 持久化；禁用时按需求调用 $zbp->DelConfig('ID')。完整方法见 config.md。
+用 Config('ID')->key = value 写入内存，随后 $zbp->SaveConfig('ID') 持久化；默认初始化要可重复执行，不要依赖安装回调一定会运行。完整方法见 config.md。
 
 ### 4. 后台管理页
 
@@ -29,7 +29,9 @@
 | 插件不出现在管理列表 | 目录名与 plugin.xml 的 id 不一致，或 XML 无法解析；对照 plugin-structure.md。 |
 | 启用时报不兼容 | adapted、phpver、依赖或冲突声明不符合目标环境；修改已有插件时沿用原值，只有用户要求排错才处理兼容性。 |
 | 钩子不触发 | 插件未启用、激活函数未挂接、回调名或钩子名不一致；对照 Hook reference。 |
-| 启用后安装函数没跑 | 函数名必须严格为 InstallPlugin_{ID}，且定义在 include.php。 |
+| 启用后安装函数没跑 | 后台启用的 `InstallPlugin_{ID}` 只在重定向后的 `PluginMng&install=` 请求里执行；CLI 或直接改 `ZC_USING_PLUGIN_LIST` 启用不会触发，必须靠激活函数里的自愈初始化（lifecycle.md「自愈式初始化」）。 |
+| 点停用后站点白屏/致命错误 | 停用会先执行 `UninstallPlugin_{ID}` 再改启用列表；回调里调用了不存在的函数（如 `Del_Filter_Plugin`）或删表导致 fatal，插件仍在启用列表，每个请求都报错。卸载回调必须幂等、防御性、保留数据（lifecycle.md「停用、卸载与数据保留」）。 |
+| 停用后用户数据丢失 | 卸载回调里用了 `DelConfig` 或 `DelTable`；停用只应清运行期缓存，删数据必须做成交互式确认的独立操作。 |
 | 管理页 403 / 报错 6 | 权限等级、CheckRights 或 CheckPlugin 缺失或不匹配。 |
 | 配置保存后丢失 | 修改 Config 后忘记调用 $zbp->SaveConfig('ID')。 |
 | include.php 导致白屏 | 引导阶段只应注册和定义，不应直接输出；检查 PHP 文件守卫与代码。 |

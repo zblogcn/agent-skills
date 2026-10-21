@@ -39,7 +39,8 @@ function UninstallPlugin_mytheme()
 要点：
 
 - 按需挂接 `Filter_Plugin_ViewSearch_Begin` 设置搜索行为。
-- 安装函数用 `$zbp->Config('mytheme')` 初始化配置；激活函数只挂当前功能需要的钩子。
+- 安装函数用 `$zbp->Config('mytheme')` 初始化配置；激活函数只挂当前功能需要的钩子。切换主题可能不经过后台安装请求（如 `ZBP_PRESET_THEME`、直接改启用主题），安装函数不一定执行，配置初始化要写成可重复执行且不覆盖已有值。
+- 主题停用同样会执行 `UninstallPlugin_{ID}`，其中不要删除用户配置；清理运行期缓存即可（见 [插件生命周期「停用、卸载与数据保留」](zblogphp-plugin-development-lifecycle.md#停用卸载与数据保留)）。
 - 主题配置页入口由 `theme.xml` 的 `<path>` 指定，可通过 `Filter_Plugin_Admin_TopMenu` 添加后台顶部菜单链接，写法见 [菜单参考](zblogphp-admin-menus.md)。
 
 ## 注入自定义模板变量：Filter_Plugin_Zbp_MakeTemplatetags

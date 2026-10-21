@@ -16,7 +16,7 @@ $value = $zbp->Config('MyPlugin')->default_url;
 $zbp->Config('MyPlugin')->default_url = '//example.com/avatar/{%emailmd5%}';
 $zbp->SaveConfig('MyPlugin');
 
-// 删除整个配置（卸载/禁用插件时清理）
+// 删除整个配置（仅用于用户显式触发的「重置设置」，不要挂在停用回调里）
 $zbp->DelConfig('MyPlugin');
 ```
 
@@ -40,7 +40,7 @@ $zbp->SaveConfig('MyPlugin');
 
 ## 生命周期中的典型用法
 
-- **安装时写默认值**：
+- **安装时写默认值**（同一段逻辑也放进激活函数的自愈检查，不能只依赖安装回调）：
 
 ```php
 function InstallPlugin_MyPlugin()
@@ -53,15 +53,21 @@ function InstallPlugin_MyPlugin()
 }
 ```
 
-- **卸载时清理**：
+- **卸载时清理（默认保留数据）**：
 
 ```php
 function UninstallPlugin_MyPlugin()
 {
     global $zbp;
-    $zbp->DelConfig('MyPlugin');
+    // 停用会执行本函数，只清运行期状态，保留配置和数据表
+    $zbp->Config('MyPlugin')->DelKey('runtime_cache');
+    $zbp->SaveConfig('MyPlugin');
 }
 ```
+
+`UninstallPlugin_{ID}` 在后台点「停用」时就会执行（`DisablePlugin()` 先调用它再改启用列表）。不要在这里 `DelConfig` 或 `DelTable`，否则停用即丢数据；确需清空配置就做成配置页上的显式按钮，见 lifecycle.md「停用、卸载与数据保留」。
+
+安装默认值同样不能只放在 `InstallPlugin_{ID}`：CLI 启用、改配置恢复不会触发该回调，激活函数里要调用可重复执行的初始化检查（lifecycle.md「自愈式初始化」）。
 
 - **管理页表单保存**：
 
@@ -79,7 +85,8 @@ if (count($_POST) > 0) {
 
 ## 注意事项
 
-- 配置名建议就用插件 ID，保证与插件目录一一对应、卸载时一把 `DelConfig` 清干净。
+- 配置名建议就用插件 ID，保证与插件目录一一对应。
+- 停用时会执行 `UninstallPlugin_{ID}`，不要把 `DelConfig` 放在其中（停用即丢设置）；清空配置只能作为配置页上的显式操作。
 - 值按标量存取；要存数组请自行序列化（如 `implode('|', ...)`）。
 - 敏感配置（token、密钥）也会被原样保存，不要在日志中输出。
 - 全局站点配置是 `$zbp->option`（`SaveOption()`），与插件 Config 是两套机制；插件只应写自己的 Config 空间。
