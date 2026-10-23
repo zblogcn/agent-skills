@@ -9,6 +9,8 @@
     python check_template_tags.py <目录或文件> [更多目录或文件...]
 
 目录会递归扫描全部 .php 文件（跳过 compile/ 编译产物目录）。
+{* *} 模板注释和 PHP 注释（//、#、/* */）中的内容不参与配平，
+HTML 注释 <!-- --> 中的标签仍会被编译器解析，照常检查。
 发现问题时列出文件、行号和原因，退出码为 1；全部配平退出码为 0。
 """
 
@@ -21,13 +23,60 @@ OPEN_RE = re.compile(r"\{(if|foreach|for|while|php)(?=[\s(}])")
 CLOSE_RE = re.compile(r"\{/(if|foreach|for|while|php)\}")
 # literal 块内的花括号是原样输出的内容，不参与配平
 LITERAL_RE = re.compile(r"\{literal\}.*?\{/literal\}", re.S)
+# {* *} 模板注释会被编译器移除，里面的标签示例不参与配平
+TEMPLATE_COMMENT_RE = re.compile(r"\{\*.*?\*\}", re.S)
+# <?php 代码段（只在这段内剥离 PHP 注释，避免误伤 HTML 文本中的 //）
+PHP_BLOCK_RE = re.compile(r"<\?php.*?(?:\?>|\Z)", re.S)
+
+
+def _blank(s):
+    """替换为等长空白，保留换行以维持行号。"""
+    return re.sub(r"[^\n]", " ", s)
+
+
+def _strip_php_comments(segment):
+    """剥离 PHP 代码段中的 //、#、/* */ 注释，字符串字面量内容原样保留。"""
+    out = []
+    i = 0
+    n = len(segment)
+    while i < n:
+        ch = segment[i]
+        if ch in "'\"":
+            j = i + 1
+            while j < n:
+                if segment[j] == "\\":
+                    j += 2
+                    continue
+                if segment[j] == ch:
+                    break
+                j += 1
+            out.append(segment[i:j + 1])
+            i = j + 1
+        elif segment.startswith("//", i) or ch == "#":
+            j = segment.find("\n", i)
+            if j == -1:
+                break
+            i = j
+        elif segment.startswith("/*", i):
+            j = segment.find("*/", i + 2)
+            if j == -1:
+                out.append(_blank(segment[i:]))
+                break
+            out.append(_blank(segment[i:j + 2]))
+            i = j + 2
+        else:
+            out.append(ch)
+            i += 1
+    return "".join(out)
 
 
 def check_file(path):
     """检查单个文件，返回问题列表（字符串）。"""
     text = path.read_text(encoding="utf-8", errors="replace")
-    # literal 块替换为等长空格，保持行号不变
-    text = LITERAL_RE.sub(lambda m: " " * len(m.group(0)), text)
+    # 模板注释、PHP 注释、literal 块替换为等长空白，保持行号不变
+    text = TEMPLATE_COMMENT_RE.sub(lambda m: _blank(m.group(0)), text)
+    text = PHP_BLOCK_RE.sub(lambda m: _strip_php_comments(m.group(0)), text)
+    text = LITERAL_RE.sub(lambda m: _blank(m.group(0)), text)
 
     tokens = []
     for m in OPEN_RE.finditer(text):

@@ -52,6 +52,31 @@ md5(guid + path + [增强安全时的 GetGuestAgent()] + user->ID + user->Passwo
 
 - 开启 `ZC_ADDITIONAL_SECURITY` 时，哈希混入 `GetGuestAgent()`（即 `HTTP_USER_AGENT`）。CLI 与 HTTP 请求必须使用同一个 User-Agent，否则校验必失败。
 - 函数内部会临时切换时区到 `ZC_TIME_ZONE_NAME`，测试脚本不需要自己改时区。
+- **token 按用户和按 `$id` 隔离，不通用。** 哈希里含 `user->ID + user->Password + user->Status + $id`（L3783）：管理员在后台页拿的 token 给前台访客表单用必失败（`$zbp->user` 不同），`GetCSRFToken('login')` 和 `GetCSRFToken('')` 也互不通用。测哪个页面就按那个页面的用户身份和 `$id` 现算。
+- CLI 下 `GetGuestIP()` 返回 `null`（`$_SERVER['REMOTE_ADDR']` 不存在，c_system_common.php L418-428 一路落到 null）。凡是要和 HTTP 请求比对哈希的代码（CSRF、captcha），开启 `ZC_ADDITIONAL_SECURITY` 后 CLI 直算的结果和 Web 端天然不同；这类场景走 HTTP 探针而不是 CLI 直算。
+
+## 验证码（captcha）伪造配方
+
+`CheckValidCode($code, $id, $timecompare)` 比对的是 Cookie，不落库（zblogphp.php L3872-3904）：
+
+- Cookie 名：`captcha_<crc32($zbp->guid . $id)>`（注意是 `crc32()` 不是 `hash('crc32b')`，和登录 cookie 名的算法不同）。
+- Cookie 值：`md5($zbp->guid . $zbp->path [+ 增强安全时的 GetGuestIP()] . 时间串 . strtolower($code))`；`hour` 粒度时间串是 `YmdH`，`minute` 是 `YmdHi`，校验时向过去回溯若干个时间片。
+
+CLI 里伪造一个必然通过的验证码：
+
+```php
+$id = 'login';            // 与目标表单调用 CheckValidCode 时用的 $id 一致
+$code = 'abcd';           // 任意字符串，提交表单时原样填进验证码字段
+$cookieName = 'captcha_' . crc32($zbp->guid . $id);
+$pre = $zbp->guid . $zbp->path;
+if ($zbp->option['ZC_ADDITIONAL_SECURITY']) { $pre .= GetGuestIP(); }  // CLI 下为 null→拼空串
+$cookieValue = md5($pre . date('YmdH') . strtolower($code));
+// curl: -b "$cookieName=$cookieValue" -d "verify=$code&..."
+```
+
+- 校验成功后该 Cookie 即被清除（L3880），每个用例要现算现用。
+- 只要挂了 `Filter_Plugin_Zbp_CheckValidCode` 钩子，默认比对整段被跳过（L3875-3877），伪造配方对这类插件无效，需要按插件自己的实现造。
+- 同 CSRF 一样，开启 `ZC_ADDITIONAL_SECURITY` 后 CLI 伪造的 Cookie 只对 CLI 同环境（无 REMOTE_ADDR）的请求有效；要过真实 Web 校验就先用 HTTP 请求拿 `c_validcode.php?id=xxx` 的 Set-Cookie，或关闭增强安全再测。
 
 ## 停用态与子进程隔离实测
 
@@ -85,6 +110,7 @@ php -S 127.0.0.1:8088 -t <站点根目录>
 
 - PHP CLI 的路径以本机安装为准，不确定时先向用户确认。
 - 进程随命令结束被终止：启动、访问、停止必须在同一条命令内完成（例如后台启动后接 curl，再停止进程），不要把服务器留在后台常驻。
+- 万一有残留的后台 `php -S` 进程，先清掉再起新服务，否则端口被占、请求打到旧目录上，现象是「改了代码不生效」：Linux/macOS 用 `pkill -f "php -S 127.0.0.1:8088"`，Windows PowerShell 用 `Get-CimInstance Win32_Process -Filter "Name='php.exe'" | Where-Object { $_.CommandLine -match 'php -S' } | ForEach-Object { Stop-Process -Id $_.ProcessId }`。
 - 改动 theme.xml、切换主题后重启服务器，避免旧状态干扰判断。
 
 ## 命令行请求绕过系统代理

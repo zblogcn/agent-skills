@@ -4,8 +4,10 @@
 功能：
 1. 对比应用 language/ 下 en.php、zh-cn.php、zh-tw.php 的键名集合，
    报告缺失和多余的键。
-2. 扫描模板和 PHP 文件中的语言键引用（{$lang['ID']['key']}、
+2. 递归扫描应用内全部 PHP 文件中的语言键引用（{$lang['ID']['key']}、
    $zbp->lang['ID']['key']、{$msg.key}），报告语言包中未定义的键。
+   只校验第一段等于应用 ID 的引用；$lang['msg'] 等系统语言包
+   和其他应用的引用不校验。compile/ 与 language/ 目录不扫描。
 
 用法：
     python check_lang_keys.py <应用目录>
@@ -21,10 +23,12 @@ LANG_FILES = ("en.php", "zh-cn.php", "zh-tw.php")
 # 语言包中的键定义：'key' => '文案'
 KEY_DEF_RE = re.compile(r"""['"]([\w\-]+)['"]\s*=>""")
 # 引用形式：{$lang['ID']['key']} / $lang['ID']['key'] / $zbp->lang['ID']['key']
-LANG_REF_RE = re.compile(r"""\$lang\[[^\]]+\]\[['"]([\w\-]+)['"]\]""")
+# 第一段是语言包名：等于应用 ID 的才是应用键；'msg' 等系统语言包引用跳过
+LANG_REF_RE = re.compile(r"""(?:\$|->)lang\[['"]([\w\-]+)['"]\]\[['"]([\w\-]+)['"]\]""")
 # 引用形式：{$msg.key}（主题经 include.php 注入的 $msg 变量）
 MSG_REF_RE = re.compile(r"""\$msg\.([\w\-]+)""")
-SCAN_GLOBS = ("template/**/*.php", "*.php")
+# 扫描应用目录下全部 .php（admin/、inc/ 等子目录也包含），排除编译产物和语言包自身
+SKIP_DIRS = ("compile", "language")
 
 
 def extract_keys(path):
@@ -41,25 +45,31 @@ def extract_keys(path):
     return set(KEY_DEF_RE.findall(text))
 
 
-def scan_refs(app_dir):
-    """扫描模板和 PHP 文件中的语言键引用，返回 {键名: [文件:行号, ...]}。"""
+def scan_refs(app_dir, app_id):
+    """扫描应用内全部 PHP 文件中的语言键引用，返回 {键名: [文件:行号, ...]}。
+
+    只收集第一段等于应用 ID 的 $lang 引用；系统语言包（如 $lang['msg']）
+    和其他应用的引用不校验。
+    """
     refs = {}
-    seen = set()
-    for pattern in SCAN_GLOBS:
-        for f in sorted(app_dir.glob(pattern)):
-            if f.parent.name == "compile" or f in seen:
-                continue
-            seen.add(f)
-            text = f.read_text(encoding="utf-8", errors="replace")
-            keys = set(LANG_REF_RE.findall(text)) | set(MSG_REF_RE.findall(text))
-            for key in keys:
-                rel = f.relative_to(app_dir)
-                line_nums = [
-                    i + 1
-                    for i, line in enumerate(text.splitlines())
-                    if re.search(rf"\$lang\[[^\]]+\]\[['\"]{key}['\"]\]|\$msg\.{key}\b", line)
-                ]
-                refs.setdefault(key, []).extend(f"{rel}:{n}" for n in line_nums)
+    for f in sorted(app_dir.rglob("*.php")):
+        if set(f.relative_to(app_dir).parts) & set(SKIP_DIRS):
+            continue
+        text = f.read_text(encoding="utf-8", errors="replace")
+        keys = {key for pack, key in LANG_REF_RE.findall(text) if pack == app_id}
+        keys |= set(MSG_REF_RE.findall(text))
+        for key in keys:
+            rel = f.relative_to(app_dir)
+            line_nums = [
+                i + 1
+                for i, line in enumerate(text.splitlines())
+                if re.search(
+                    rf"(?:\$|->)lang\[['\"]{re.escape(app_id)}['\"]\]\[['\"]{re.escape(key)}['\"]\]"
+                    rf"|\$msg\.{re.escape(key)}\b",
+                    line,
+                )
+            ]
+            refs.setdefault(key, []).extend(f"{rel}:{n}" for n in line_nums)
     return refs
 
 
@@ -93,7 +103,7 @@ def main():
                 mark = "缺少" if key in base else "多余"
                 print(f"  {mark} {key}")
 
-    refs = scan_refs(app_dir)
+    refs = scan_refs(app_dir, app_dir.name)
     undefined = {k: v for k, v in refs.items() if k not in base}
     if undefined:
         problems += len(undefined)

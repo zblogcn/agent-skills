@@ -45,6 +45,8 @@
 ## 按症状排错
 
 - 页面某块内容静默消失或条件分支错乱，且无任何报错：大概率是模板漏写了 `{/if}`、`{/foreach}` 等闭合标签，编译器非贪婪配对把后续内容吞进上一个标签块；用 `python scripts/check_template_tags.py <主题目录>` 定位（机制见 template-syntax.md 条件一节）。
+- 模板编译后页面直接 500，编译产物里有 `$article.Title` 这类点号写法：点号转 `->` 只在模板表达式里生效，`{php}` 块内不转换，块内必须写 `$article->Title`（见 template-syntax.md 变量一节）。
+- 日期归档页 `{$date}` 输出报错：`$date` 是 Metas 对象不是字符串，归档标题用 `{$title}`（见 template-hierarchy.md 列表页类型表）。
 - 模板修改不生效：按模板层级定位文件；必要时由用户重建编译缓存。
 - 模板标签原样输出：对照 template-syntax.md 修正标签空格、属性分隔和方法调用。
 - 变量为空：确认当前页面是否提供该变量，并对照 template-hierarchy.md。

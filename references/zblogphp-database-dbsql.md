@@ -104,6 +104,8 @@ $zbp->db->sql->ExistTable($table);    // L82
 
 `$datainfo` 格式同 `zb_system/defend/datainfo.php`：`字段名 => array('列名', '类型', '长度', '默认值')`。类型支持 `integer/string/char/boolean/float/double/timestamp` 等（方言各自映射）。
 
+**后三个参数要传 `''` 不要传 `null`。** 函数内部直接 `trim($engine)`（L102-110），PHP 8.1+ 下 `trim(null)` 报 Deprecated；骨架基线 8.2 下调用写成 `CreateTable($table, $datainfo, '', '', '')`（不指定引擎时传空串走数据库默认）。
+
 ## 6. 事务
 
 ```php

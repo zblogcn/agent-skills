@@ -75,6 +75,7 @@ $post->Save();
 
 - Metas 同样实现了 `__set/__get/__isset/__unset`（metas.php L31-63），`HasKey`、`CountItem`、`GetData` 可用。
 - 序列化时机在 `Base::Save()` 开头：`$this->data['Meta'] = $this->Metas->Serialize()`（base.php L461-463）。**只改 Metas 不调 Save 不会入库**。
+- **不要给 `$post->Meta`（单数，原始列）直接赋值。** Save 时该列会被 `$this->Metas->Serialize()` 整体覆盖，你赋的原始串静默丢失；如果赋的是非法序列化串，后续读取时 Unserialize 还会产生警告或异常。读写扩展字段一律走 `$post->Metas->key`。
 - 读取时机在 `LoadInfoByAssoc` / `LoadInfoByArray` / `LoadInfoByDataArray`：遇到 `Meta` 列自动 Unserialize（base.php L296-299）。
 - Meta 列类型是 text，值是 PHP serialize 串；不要手改数据库里的这个字段。
 

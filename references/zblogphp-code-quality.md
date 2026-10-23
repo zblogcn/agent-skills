@@ -55,6 +55,15 @@ include.php 加载后进入全局空间的一切符号都要带应用 ID（XML �
 - 不能用 PHP 8.3 及以后才有的语法和函数（如 `json_validate()`、`Foo::{$name}` 动态类常量获取、`#[\Override]`），除非同时提高 `<phpver>`。
 - 需要更高版本的语法或函数时，先提高 `<phpver>` 再写代码，并保证声明范围内所有版本可运行。
 - 新建应用统一写 `8.2`；修改已有应用时沿用原有的 `<phpver>`，不要擅自升降。
+- 以 8.2 为基线不代表可以无视更高版本的弃用：`fputcsv()` / `fgetcsv()` / `str_getcsv()` 在 PHP 8.4 起必须显式传 `$escape` 参数，省略会报 Deprecated；保持旧行为传 `escape: ''`（PHP 8.4 的默认转义行为有变化）。同样地，任何「传 null 给字符串参数」的写法（`trim(null)`、`str_replace(null, ...)` 等）在 8.1+ 都是 Deprecated，参数该传 `''`。
+
+## JSON 数字键陷阱
+
+PHP 数组的键只要「看起来像整数」就会被强转成 int，这导致 JSON 往返后结构悄悄变化：
+
+- `json_encode(array(1 => 'a', 3 => 'b'))` 产出对象 `{"1":"a","3":"b"}`（键不连续），而 `json_encode(array(0 => 'a', 1 => 'b'))` 产出数组 `["a","b"]`（键从 0 连续）——同样的数据，删了一行中间项后编码结果类型就变了，消费端按对象取值会直接拿不到。
+- `json_decode($s, true)` 把 `{"1":"a"}` 解成 `array(1 => 'a')`（int 键），再 `json_encode` 时若键恰好连续就退化成 JSON 数组。
+- 把「题目 ID => 答案」这类以数字为键的数据存进 Config / Metas（JSON 或 serialize 均可中招）时，要么键加前缀（`'q' . $id`），要么编码前 `json_encode($arr, JSON_FORCE_OBJECT)`，要么消费端只用 `foreach` 不按键名直接取。混用 PHP 数组和 JS 对象时尤其要在一侧写死约定。
 
 ## 页面输出必须规范
 

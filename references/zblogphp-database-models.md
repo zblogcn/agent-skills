@@ -57,6 +57,8 @@ $post->Save();   // L458：ID 为空走 Insert 并回填自增 ID；否则走 Up
 $post->Del();    // L550：按主键删除，并清理对象缓存
 ```
 
+**写入 `Tag` 字段只能赋字符串。** `$post->Tag` 是纯字符串列，存 `{1}{2}{3}` 格式的标签 ID 串；给它赋数组再 `Save()`，PHP 8 在 SQL 转义处直接抛 `addslashes(): Argument #1 must be of type string, array given`（PHP 7 则静默拼坏 SQL）。而 `$post->Tags`（复数，对象数组）在 `__set` 里被直接 return（post.php L156），**赋值会被静默丢弃**，不能用来写标签。写入标签的正确做法：`$post->Tag = '{1}{2}';`。
+
 Save 的行为要点（L458-543）：
 
 - 保存前若存在 `Meta` 键，先 `$this->Metas->Serialize()` 序列化（L461-463）。
@@ -77,6 +79,8 @@ Save 的行为要点（L458-543）：
 | `$zbp->GetXxxByID($id)` | `Get([a-zA-Z]\w*)ByID` | `GetSingleByIDWithBaseObject`（L2780，优先读缓存） |
 
 `Xxx` 必须是 Base 的子类名（Post/Category/Tag/Member/Comment/Module/Upload/...）。
+
+**找不到时不返回 null。** `GetXxxByID` 查不到记录时返回一个 `ID == null` 的空对象（`GetMemberByID` 还会顺手赋一个新 Guid，zblogphp.php L3303-3312）。用 `if ($m === null)` 判断永远为 false，正确写法是 `if (!$m->ID)` 或 `if ($m->ID == 0)`。
 
 真实签名（zblogphp.php L2794）：
 

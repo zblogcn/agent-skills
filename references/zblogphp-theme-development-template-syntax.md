@@ -18,6 +18,8 @@
 
 `.` 会被编译为 `->`（replace_dot，L660-679），字符串引号内的 `.` 不受影响。
 
+**点号转换只在模板表达式里生效**（`{$...}`、`{if}`、`{foreach}`、`{for}`、`{switch}`、函数参数），不是全局规则。`{php}...{/php}` 和 `{pre}...{/pre}` 块在编译第一步就被 `parse_uncompile_code`（L399-414）整块抽走，结束时原样放回（L419-435），**块内不做任何点号转换**。在 `{php}` 里写 `$article.Title`，PHP 会把 `.` 当字符串连接符、`Title` 当未定义常量，直接致命错误；`{php}` 块内一律写标准 PHP：`$article->Title`。
+
 ```
 {$article.Title}                  → echo $article->Title;
 {$article.Category.Name}          → echo $article->Category->Name;
@@ -70,6 +72,8 @@
 ```
 {php} echo date('Y'); {/php}
 ```
+
+块内是原样 PHP，不享受模板的点号转换：`{php} echo $article.Title; {/php}` 会致命错误，必须写 `$article->Title`（机制见「变量」一节的点号转换说明）。
 
 需要"不编译"的原样内容可用 `{literal}` 相关机制（`parse_uncompile_code` 保护块），日常主题开发一般用不到。
 

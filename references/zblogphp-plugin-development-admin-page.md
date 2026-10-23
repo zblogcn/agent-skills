@@ -120,6 +120,7 @@ if ($zbp->CheckPlugin('MyPlugin')) {
 - **CSRF 两种模式**：
   - `CheckIsRefererValid()` + 表单隐藏域 `csrfToken`（`$zbp->GetCSRFToken()`）；
   - `$zbp->ValidToken(GetVars('token', 'POST'), 'ID')` + `$zbp->GetToken('ID')`。
+- **token 按用户和 `$id` 隔离**：哈希含 `user->ID + Password + Status + $id`（zblogphp.php L3783）。后台页（管理员身份）生成的 token 不能给前台访客表单用，`GetCSRFToken()` 与 `GetCSRFToken('login')` 也互不通用；跨场景复用 token 是「明明带着 token 却校验失败」的常见原因。
 - **后台布局**：`admin_header.php` + `admin_top.php` + `#divMain`（`.divHeader` / `.SubMenu` / `#divMain2`）+ `admin_footer.php`，最后调用 `RunTime()`。
 - **导航高亮与图标**：`ActiveLeftMenu("aPluginMng")` 让左侧「插件管理」菜单高亮；`AddHeaderIcon()` 使用插件默认 `logo.png`。功能图标写法见[图标参考](zblogphp-admin-icons.md)。
 - **子菜单**：挂接 `Filter_Plugin_Admin_LeftMenu`，在回调中用 `MakeLeftMenu()` 向左侧导航添加入口；完整写法见 [菜单参考](zblogphp-admin-menus.md)。

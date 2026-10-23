@@ -55,6 +55,8 @@ zb_users/theme/{主题ID}/
 </html>
 ```
 
+注意 `<body class="{$type}">` 的作用域副作用：`$type` 的取值是 `index`、`category`、`tag`、`author`、`date`、`single`、`page` 这类通用词，主题 CSS 里任何裸类选择器（如 `.page { ... }`、`.single { ... }`）都会直接命中 `<body>`，污染整页布局；反过来，想按页面类型写样式也该用 `body.page .col-main` 这种明确写法。自定义容器类名要避开这些取值（用 `col-main`、`page-xxx` 等带前缀的名字），不要复用 `index`/`single`/`page` 等词。
+
 `header.php` 被 `{template:header}` 嵌入 `<head>` 内部，只写 head 内部标签，不允许出现文档骨架开标签，也不在里面留下未闭合的标签：
 
 ```html

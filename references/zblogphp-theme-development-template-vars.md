@@ -64,6 +64,8 @@
 | `{$article.Thumbs(640, 360, 1, false)[0]}` | 第一张缩略图 URL | post.php L420-433 |
 | `{$article.Metas.XXX}` | 扩展字段（插件/主题写入） | `base.php` L38 `Metas`；`metas.php` `__get` |
 
+标签的写入侧与读侧不对称：`$post->Tag` 只能赋 `{1}{2}` 格式字符串（赋数组会 fatal），`$post->Tags`（复数）赋值被静默丢弃；见 [models.md「保存与删除」](zblogphp-database-models.md#3-保存与删除)。
+
 
 ---
 

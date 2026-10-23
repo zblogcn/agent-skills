@@ -30,6 +30,8 @@
 | `author`（作者） | `$author->Template` | `$author`、`$articles`、`$pagebar` |
 | `date`（日期归档） | posttype 的 `date_template`（默认 `index`） | `$date`、`$articles`、`$pagebar` |
 
+日期归档页的 `$date` **不是日期字符串**，是 `Metas::ConvertArray(getdate($timestamp))` 对象（c_system_route.php L1205、SetTags L1351），`{$date}` 直接输出会报错；要显示「2026年10月」这类归档标题用 `{$title}`（L1184-1186 已按年月/年月日规则拼好），要取年月日数字用 `{$date.year}`、`{$date.mon}`、`{$date.mday}`。
+
 最终判定（L1364-1368）：
 
 ```

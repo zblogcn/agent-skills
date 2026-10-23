@@ -42,5 +42,8 @@
 | 点停用后站点白屏/致命错误 | 停用会先执行 `UninstallPlugin_{ID}` 再改启用列表；回调里调用了不存在的函数（如 `Del_Filter_Plugin`）或删表导致 fatal，插件仍在启用列表，每个请求都报错。卸载回调必须幂等、防御性、保留数据（lifecycle.md「停用、卸载与数据保留」）。 |
 | 停用后用户数据丢失 | 卸载回调里用了 `DelConfig` 或 `DelTable`；停用只应清运行期缓存，删数据必须做成交互式确认的独立操作。 |
 | 管理页 403 / 报错 6 | 权限等级、CheckRights 或 CheckPlugin 缺失或不匹配。 |
+| `addslashes(): Argument #1 must be of type string, array given` | 给 `$post->Tag` 赋了数组；`Tag` 是字符串列只能赋 `{1}{2}` 格式 ID 串，`$post->Tags`（复数）赋值会被静默丢弃（models.md「保存与删除」）。 |
+| Metas 扩展字段保存后丢失 / 读取报 Unserialize 警告 | 直接给 `$post->Meta`（单数原始列）赋了值，Save 时被 `Metas->Serialize()` 覆盖；一律走 `$post->Metas->key`（config-metas.md）。 |
+| `GetXxxByID` 判空永远为 false | 查不到返回 `ID == null` 的空对象而非 null；用 `if (!$m->ID)` 判断（models.md「魔术列表方法」）。 |
 | 配置保存后丢失 | 修改 Config 后忘记调用 $zbp->SaveConfig('ID')。 |
 | include.php 导致白屏 | 引导阶段只应注册和定义，不应直接输出；检查 PHP 文件守卫与代码。 |
