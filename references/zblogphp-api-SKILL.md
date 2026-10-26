@@ -2,6 +2,8 @@
 
 入口为 zb_system/api.php，按 mod 与 act 调度到函数 api_{mod}_{act}()。
 
+按需加载：先确认是调用现有接口还是新增端点，只打开对应的那一份 api-*.md，不要三份都读。
+
 ## 实现流程
 
 1. 先确认任务是调用现有接口还是新增端点，并按需读取 api-modules.md、api-structure.md 或 custom-api.md。

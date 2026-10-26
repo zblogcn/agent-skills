@@ -1,6 +1,6 @@
 ---
 name: zblogphp-agent-skills
-version: 1.0.4
+version: 1.0.5
 display_name: Z-Blog PHP 主题与插件开发
 display_name_en: Z-Blog PHP Theme & Plugin Development
 description: 当用户请求涉及 Z-Blog PHP、zblogphp、zblog、zbp、zb_system 或 zb_users 的插件、主题、模板、Hook、数据库、API、后台或安全开发时使用。统一识别项目并按需读取对应专题参考，创建和修改 Z-Blog PHP 应用。
@@ -63,26 +63,41 @@ examples_en:
 
 - 技能正文与按需读取的专题 references 是实现依据，已整理的知识直接使用，不回查核心源码、默认主题或其他插件/主题来核实。源码路径、行号和真实应用名称只是溯源或示例，不是读取清单。
 - 只读取任务目标文件、必要环境信息和功能所需参考，不扫描无关应用。
-- 涉及主题、插件的制作或修改时，先读一次 [主题与插件共同约定](references/application-conventions.md)，再按下表选择专题。共同约定适用于所有专题，跨领域时继续沿用。
+- 创建或修改主题、插件时读一次 [主题与插件共同约定](references/application-conventions.md)；纯查询、纯排错任务不读。
 - 每个主题、插件必须独立设计实现：禁止复制既有应用换名套壳（`cp -r` 改 ID、照搬结构改前缀和配色）；新主题先做信息架构和设计语言，再写模板，汇报前确认与既有应用无复制关系（见共同约定「系列应用独立性」）。
 - 专题资料中的排错、验证和审计章节只在用户明确要求时使用；实现要点用于编写时参考。
 
+## 按需加载（渐进式披露）
+
+资料分三层，用到哪一层才读哪一层，不要预先读完：
+
+| 层级 | 读什么 | 时机 |
+|---|---|---|
+| 第一层 | 本文件的路由表 | 任务开始时 |
+| 第二层 | 对应的那**一个** `references/zblogphp-*-SKILL.md` | 判定任务类型后 |
+| 第三层 | 第二层文档在具体步骤里链接的文件 | 执行到该步骤时 |
+
+- 禁止预先读取整个 `references/` 目录，禁止为了“了解全貌”批量打开同目录的 `.md`。
+- 动手写代码前，第三层最多先读 1~2 个文件；后续步骤需要哪个再读哪个。
+- 跨领域只补读实际用到的那一份，不整套转读。
+- 排错、验证、审计章节只在用户明确要求时使用。
+
 ## 一次识别与按需路由
 
-目录类型未知时才识别一次；复用已有的路径和应用信息，不重复扫描、询问或播报。
+目录类型未知时才识别一次；复用已有的路径和应用信息，不重复扫描、询问或播报。每行只读“先读的参考”列出的那一个文件。
 
 | 当前任务 | 先读的参考 |
 |---|---|
 | 项目结构不明、需要识别站点根/插件/主题 | `references/zblogphp-project-triage-SKILL.md`；需要脚本时使用 `scripts/detect_zblog_project.mjs` |
-| 新建、修改或排查插件 | `references/zblogphp-plugin-development-SKILL.md`；再按需读同目录资料 |
+| 新建、修改或排查插件 | `references/zblogphp-plugin-development-SKILL.md` |
 | 插件前台页面、URL 路由、前台登录与注册、入口可发现性 | `references/zblogphp-plugin-development-frontend-pages.md` |
-| 新建、修改或排查主题、模板、侧栏 | `references/zblogphp-theme-development-SKILL.md`；再按需读同目录资料 |
-| 查询或使用 Filter 钩子 | `references/zblogphp-hooks-reference-SKILL.md`；再按需读同目录资料 |
-| 数据库、SQL、模型、Config、Meta | `references/zblogphp-database-SKILL.md`；再按需读同目录资料 |
-| API、`mod`、`act`、`ApiDispatch` | `references/zblogphp-api-SKILL.md`；再按需读同目录资料 |
-| 后台页面、菜单、命令、CSRF token | `references/zblogphp-admin-SKILL.md`；再按需读同目录资料 |
-| XSS、SQL 注入、CSRF、权限和转义 | `references/zblogphp-security-SKILL.md`；再按需读同目录资料 |
+| 新建、修改或排查主题、模板、侧栏 | `references/zblogphp-theme-development-SKILL.md` |
+| 查询或使用 Filter 钩子 | `references/zblogphp-hooks-reference-SKILL.md` |
+| 数据库、SQL、模型、Config、Meta | `references/zblogphp-database-SKILL.md` |
+| API、`mod`、`act`、`ApiDispatch` | `references/zblogphp-api-SKILL.md` |
+| 后台页面、菜单、命令、CSRF token | `references/zblogphp-admin-SKILL.md` |
+| XSS、SQL 注入、CSRF、权限和转义 | `references/zblogphp-security-SKILL.md` |
 | 危险函数、全局符号命名、phpver 兼容、资源本地化、前端多端适配等代码质量要求 | `references/zblogphp-code-quality.md` |
 | 本地实测、切换主题渲染、内置服务器、无头截图（仅用户明确要求测试/排错时） | `references/zblogphp-local-testing.md` |
 
-以主任务选择专题，跨领域只补读实际需要的资料。专题 `zblogphp-*-SKILL.md` 是领域流程说明，同目录带相同前缀的其他 `.md` 是按需细节，无需一次读完。
+以主任务选择专题，跨领域只补读实际需要的资料。

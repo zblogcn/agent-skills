@@ -1,5 +1,7 @@
 # Hook 参考
 
+按需加载：先确定钩子类别，只打开对应的那一份 hooks-*.md，不要四份都读。
+
 ## 实现流程
 
 1. 按扩展点类别读取 hooks-core.md、hooks-admin.md、hooks-view.md 或 hooks-data.md。

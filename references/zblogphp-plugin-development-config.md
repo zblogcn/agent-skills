@@ -69,7 +69,7 @@ function UninstallPlugin_MyPlugin()
 
 安装默认值同样不能只放在 `InstallPlugin_{ID}`：CLI 启用、改配置恢复不会触发该回调，激活函数里要调用可重复执行的初始化检查（lifecycle.md「自愈式初始化」）。
 
-- **管理页表单保存**：
+- **管理页表单保存**（图片/URL 字段的上传、预览和清除按 [管理页](zblogphp-plugin-development-admin-page.md#图片url-字段行内上传与预览) 的行内集成规则处理）：
 
 ```php
 if (count($_POST) > 0) {

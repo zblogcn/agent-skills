@@ -9,7 +9,7 @@
     python check_template_tags.py <目录或文件> [更多目录或文件...]
 
 目录会递归扫描全部 .php 文件（跳过 compile/ 编译产物目录）。
-{* *} 模板注释和 PHP 注释（//、#、/* */）中的内容不参与配平，
+{* *} 模板注释和 PHP 注释（//、#、/* */，含 {php} 块内的）不参与配平，
 HTML 注释 <!-- --> 中的标签仍会被编译器解析，照常检查。
 发现问题时列出文件、行号和原因，退出码为 1；全部配平退出码为 0。
 """
@@ -25,8 +25,10 @@ CLOSE_RE = re.compile(r"\{/(if|foreach|for|while|php)\}")
 LITERAL_RE = re.compile(r"\{literal\}.*?\{/literal\}", re.S)
 # {* *} 模板注释会被编译器移除，里面的标签示例不参与配平
 TEMPLATE_COMMENT_RE = re.compile(r"\{\*.*?\*\}", re.S)
-# <?php 代码段（只在这段内剥离 PHP 注释，避免误伤 HTML 文本中的 //）
+# <?php 代码段与 {php} 模板块内的 PHP 注释需要剥离
+# （模板里的 PHP 一般写在 {php} 块中，两种形式都要处理）
 PHP_BLOCK_RE = re.compile(r"<\?php.*?(?:\?>|\Z)", re.S)
+PHP_TPL_BLOCK_RE = re.compile(r"\{php\}(.*?)(\{/php\}|\Z)", re.S)
 
 
 def _blank(s):
@@ -73,9 +75,12 @@ def _strip_php_comments(segment):
 def check_file(path):
     """检查单个文件，返回问题列表（字符串）。"""
     text = path.read_text(encoding="utf-8", errors="replace")
-    # 模板注释、PHP 注释、literal 块替换为等长空白，保持行号不变
+    # 模板注释、PHP 注释（含 {php} 块内）、literal 块替换为等长空白，保持行号不变
     text = TEMPLATE_COMMENT_RE.sub(lambda m: _blank(m.group(0)), text)
     text = PHP_BLOCK_RE.sub(lambda m: _strip_php_comments(m.group(0)), text)
+    text = PHP_TPL_BLOCK_RE.sub(
+        lambda m: "{php}" + _strip_php_comments(m.group(1)) + m.group(2), text
+    )
     text = LITERAL_RE.sub(lambda m: _blank(m.group(0)), text)
 
     tokens = []

@@ -66,7 +66,7 @@
 | `statistics` | ModuleBuilder::Statistics | 站点统计 |
 | `authors` | ModuleBuilder::Authors | 作者列表 |
 
-另有 `controlpanel`（控制面板）、`searchpanel`（搜索）、`favorite`（收藏）、`link`（链接）、`misc`（杂项）等以模块记录形式存在（可在后台"模块管理"查看/编辑）。模块的 HTML 骨架模板为 `zb_system/defend/default/module-{文件名}.php`，主题可在 `template/` 下用同名文件覆盖其外观。
+另有 `controlpanel`（控制面板）、`searchpanel`（搜索）、`favorite`（收藏）、`link`（链接）、`misc`（杂项）等以模块记录形式存在（可在后台"模块管理"查看/编辑）。模块的 HTML 骨架模板为 `zb_system/defend/default/module-{文件名}.php`，主题可在 `template/` 下用同名文件覆盖其外观；`module-navbar.php` 例外，只能输出 `{$content}`，见下文「前端导航」。
 
 注意：模块 `Content` 在输出前会做静态标签替换（`Display()` 中对每个模块 `ReplaceStaticTags`），所以模块内容里可直接写 `{$name}`、`{#ZC_BLOG_NAME#}` 等静态标签。
 
@@ -75,6 +75,17 @@
 - 后台"模块管理"手工新建，或代码里 `new Module()` 后设置 `FileName`/`Name`/`Source`/`Content` 再 `Save()`。
 - 可挂 `Filter_Plugin_Zbp_BuildModule` 钩子动态生成/更新自定义模块，模块名带目标主题前缀，`Source` 设为 `themeinclude_{主题ID}`。
 - 也可挂 `Filter_Plugin_Template_GetTemplate` 返回自定义路径，替换任意子模板（含 `module-*`）。
+
+## 前端导航（navbar）
+
+`navbar` 模块的 `Content` 是纯 `<li>` 列表，`<ul>` 包裹层由主题模板负责。两种用法：
+
+- **普通导航**：模板里直接写 `<ul>{module:navbar}</ul>`。不要提供 `template/module-navbar.php`，不提供时自动回落到系统默认的 `{$content}`。
+- **自定义导航**（如二级下拉）：在 `template/` 下新建 `lm-module-navbar.php`，结构和样式自己写。它是 LinksManage 插件的前台自定义模块模板（`LinksManage_GenModCon()` 用 `HasTemplate("lm-module-{$fileName}")` 选择），不参与 `Content` 回写，可以自由包 `<ul>`、加下拉结构；站点未启用 LinksManage 时不生效。
+
+唯一的坑：不要覆盖 `template/module-navbar.php` 并把 `<ul>` 写进去。`ModuleBuilder::Navbar()` 会读 `Content` → 渲染 `module-navbar` → 把结果写回 `Content`，每次重建都多套一层，最终出现 `<ul><ul>` 嵌套。
+
+后台生成的条目是 `<li id="navbar-{type}-{id}">`，没有 class，CSS 用 `li[id^="navbar-"] a` 这类选择器即可。
 
 ## 常见坑
 

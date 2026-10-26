@@ -1,5 +1,7 @@
 # 主题开发
 
+按需加载：本文件只给流程；执行到某一步时再打开该步骤链接的同目录文件，不要预读其他 `.md`。
+
 ## 硬约束：每个主题独立设计，禁止套壳
 
 这条规则优先于后续所有步骤：
@@ -28,11 +30,11 @@
 
 ### 3. 模板与页面对应
 
-按 template-hierarchy.md 从页面类型选择模板，再按 template-syntax.md 编写标签。对象属性和页面变量查 template-vars.md。主题只提供与默认行为不同的模板文件，缺失文件由运行时回落机制处理。
+按 template-hierarchy.md 从页面类型选择模板，再按 template-syntax.md 编写标签。对象属性和页面变量查 template-vars.md。主题只提供与默认行为不同的模板文件，缺失文件由运行时回落机制处理。站标、页脚品牌这类品牌区组件按 [theme-structure.md「品牌区」](zblogphp-theme-development-theme-structure.md#品牌区logo-与站点名称二选一) 二选一：有 Logo 只显示图，没有只显示纯文字，不要自加装饰组合。
 
 ### 4. 侧栏和模块
 
-按 modules-sidebars.md 设置 theme.xml 的 9 组侧栏、模板中的 sidebar 系列变量和模块模板。
+按 modules-sidebars.md 设置 theme.xml 的 9 组侧栏、模板中的 sidebar 系列变量和模块模板。普通导航模板里直接写 `<ul>{module:navbar}</ul>`；需要二级下拉等自定义导航时用 `lm-module-navbar.php`（见 [modules-sidebars.md「前端导航」](zblogphp-theme-development-modules-sidebars.md#前端导航navbar)）。
 
 ### 5. include.php 与主题功能
 
@@ -40,7 +42,7 @@
 
 ### 6. 交付前静态检查
 
-按 [共同约定「读取与交付边界」](application-conventions.md#读取与交付边界) 默认执行零成本静态检查并修复问题：全部 PHP 文件 `php -l`；模板 `{if}`、`{foreach}` 等成对标签逐个配平（用 `python scripts/check_template_tags.py <主题目录>` 检查，漏写闭合不会报错、只会静默吞内容）；`{template:}` 引用的文件存在；语言包三包键一致且模板引用的语言键都有定义（用 `python scripts/check_lang_keys.py <主题目录>` 检查）；本地资源路径存在、无站外资源。静态检查结果随交付说明一并汇报；运行时实测只在用户明确要求时进行（手段见 [本地开发与实测](zblogphp-local-testing.md)）。
+按 [共同约定「读取与交付边界」](application-conventions.md#读取与交付边界) 默认执行零成本静态检查并修复问题，只覆盖本次新建或修改的文件：PHP 文件 `php -l`；模板 `{if}`、`{foreach}` 等成对标签逐个配平（用 `python scripts/check_template_tags.py <主题目录>` 检查，漏写闭合不会报错、只会静默吞内容）；`{template:}` 引用的文件存在；语言包三包键一致且模板引用的语言键都有定义（用 `python scripts/check_lang_keys.py <主题目录>` 检查）；本地资源路径存在、无站外资源。静态检查结果随交付说明一并汇报；运行时实测只在用户明确要求时进行（手段见 [本地开发与实测](zblogphp-local-testing.md)）。
 
 ## 按症状排错
 
@@ -54,3 +56,4 @@
 - include.php 报错导致白屏：检查注册、语言加载、Hook 回调和防直接访问守卫。
 - theme.xml 识别异常：保持 id、目录名和 RegisterPlugin() ID 完全一致。
 - 侧栏不显示：检查模块文件名是否存在于 $zbp->modulesbyfilename。
+- 导航更新缓存后出现 `<ul><ul>` 层层嵌套：主题覆盖的 `module-navbar.php` 里包了 `<ul>`，删掉该文件或改为只输出 `{$content}`。

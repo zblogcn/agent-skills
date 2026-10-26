@@ -83,6 +83,32 @@ zb_users/theme/{主题ID}/
 
 `{$header}`、`{$footer}` 两个标签必须保留（见 template-syntax.md 内建变量表），分别放在 `header.php` 末尾和 `footer.php` 末尾，用于系统和插件注入头部/底部代码。
 
+### 品牌区：Logo 与站点名称二选一
+
+页头站标、页脚品牌这类组件只有两种状态，必须二选一，不能叠加：
+
+- 配置了 Logo：只输出 Logo 图片，图片本身承担品牌识别；
+- 没配置 Logo：只输出站点名称纯文字。
+
+不要在 Logo 旁边再挂站点名、副标题、分隔符或图标，也不要在纯文字状态下补一个占位图标、色块或首字母方块——这些都是自加装饰组合。条件判断只保留两个分支，不要用 CSS 把 Logo 和文字同时渲染出来再隐藏其中一个。
+
+```html
+<div class="site-brand">
+  <a href="{$host}">
+    {if $cfg.Logo}
+      <img class="site-brand__logo" src="{$cfg.Logo}" alt="{$name}" />
+    {else}
+      <span class="site-brand__text">{$name}</span>
+    {/if}
+  </a>
+</div>
+```
+
+- Logo 来自主题配置注入的 `$cfg.Logo`（见 theme-functions.md），系统核心没有 `{$logo}` 这个模板变量，不要臆造。
+- `alt` 用站点名称，不要写 `logo` 之类的泛称。
+- 文字分支只输出站点名；副标题 `{$subname}` 属于站点描述区，是否展示由页面设计单独决定，不要塞进品牌区。
+- 页脚品牌区、侧栏站点卡片等同类组件按同一规则处理。
+
 ## 语言包
 
 文件格式、加载及 PHP、模板和 JS 的文案引用见[共同语言包约定](application-conventions.md#语言包)。

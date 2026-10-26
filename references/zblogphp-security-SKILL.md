@@ -2,6 +2,8 @@
 
 Z-BlogPHP 安全模型围绕 CSRF/Referer 校验、FormatString 转义、DbSql 参数化和 action 权限控制。
 
+按需加载：按当前要处理的类型只打开对应的那一份（csrf / xss-escaping / sql-injection / permissions），不要四份都读。
+
 ## 实现流程
 
 1. CSRF：后台写操作使用 CheckIsRefererValid、CheckCSRFTokenValid 或 BuildSafeCmdURL；表单输出 csrfToken。登录按登录专用 CSRF 规则处理。详见 csrf.md。

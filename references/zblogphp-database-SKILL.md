@@ -2,6 +2,8 @@
 
 Z-BlogPHP 数据访问分为 DbSql 查询构造器、Base 模型和 Config/Metas 键值扩展三层。
 
+按需加载：按数据对象和操作类型只打开 models.md、dbsql.md、config-metas.md、schema.md 中的一份，不要全部预读。
+
 ## 实现流程
 
 1. 读取 models.md、dbsql.md、config-metas.md 或 schema.md，按数据对象和操作类型选资料。
