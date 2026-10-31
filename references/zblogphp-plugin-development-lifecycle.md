@@ -131,7 +131,6 @@ function MyPlugin_EnsureModules()
 
 ```php
 <?php
-if (!defined('ZBP_PATH')) {exit('Access denied');}   // 防直接访问（必须，见下）
 
 // 注册插件：参数1=插件ID，参数2=激活时执行的函数名
 RegisterPlugin("MyPlugin", "ActivePlugin_MyPlugin");
@@ -184,7 +183,7 @@ function MyPlugin_Url(&$member)
 
 - `include.php` 在引导阶段被 include，**只做注册和函数定义，不要输出任何内容**，否则导致 headers already sent。
 - `RegisterPlugin($strPluginName, $strPluginActiveFunction)` 只是把激活函数名存入 `$GLOBALS['plugins']`（c_system_plugin.php L47-50）。
-- 函数命名约定：`ActivePlugin_{ID}`、`InstallPlugin_{ID}`、`UninstallPlugin_{ID}`，其中后两个必须严格匹配才会被 `InstallPlugin()`/`UninstallPlugin()` 找到。
+- `InstallPlugin_{ID}`、`UninstallPlugin_{ID}` 必须严格匹配函数名，否则 `InstallPlugin()`/`UninstallPlugin()` 找不到；四个约定函数名的完整名单见[代码质量「全局符号必须带应用 ID」](zblogphp-code-quality.md#全局符号必须带应用-id)。
 - `InstallPlugin_{ID}` 不能作为初始化的唯一入口（CLI 启用、改配置恢复都不会触发），初始化必须做成激活函数里可重复执行的自愈检查。
 - `UninstallPlugin_{ID}` 是停用时唯一回调，默认保留配置和数据表，详见上文「停用、卸载与数据保留」。
 - 卸载钩子用 `Remove_Filter_Plugin($hook, $func)`，不存在 `Del_Filter_Plugin()`；插件停用无需卸载钩子（钩子随请求重建）。

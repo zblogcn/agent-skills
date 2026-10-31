@@ -1,12 +1,11 @@
 # 主题 include.php：注册与钩子
 
-主题与插件共用应用机制。include.php 在主题激活期间随**每次请求**加载（前台与后台）。在[共同约定](application-conventions.md)的应用副本中补充以下扩展逻辑；示例也供模板缺失时回退，`mytheme` 为占位 ID。
+主题与插件共用应用机制。include.php 在主题激活期间随**每次请求**加载（前台与后台）。`scripts/create_app.py` 已生成注册与语言加载，下面是完整示例（`mytheme` 为占位 ID），按功能补充钩子即可；生命周期函数的执行时机见[插件生命周期](zblogphp-plugin-development-lifecycle.md#include-php-标准写法)。
 
 ## 基本骨架
 
 ```php
 <?php
-if (!defined('ZBP_PATH')) {exit('Access denied');}   // 防直接访问（必须）
 // 注册主题（第一个参数必须等于主题目录名 / theme.xml 的 <id>）
 RegisterPlugin("mytheme", "ActivePlugin_mytheme");
 

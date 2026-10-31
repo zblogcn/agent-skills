@@ -31,7 +31,7 @@ PHP 文件中禁止以下调用，也不要用字符串拼接、变量函数（`
 include.php 加载后进入全局空间的一切符号都要带应用 ID（XML 中的 `id`，大小写不敏感），避免污染全局命名空间、与核心及其他应用冲突：
 
 - 全局函数只允许：
-  - 四个系统约定精确名：`ActivePlugin_{ID}`、`AddApiMods_{ID}`、`InstallPlugin_{ID}`、`UninstallPlugin_{ID}`
+  - 四个系统约定精确名：`ActivePlugin_{ID}`、`AddApiMods_{ID}`、`InstallPlugin_{ID}`、`UninstallPlugin_{ID}`（注册与执行时机见 [lifecycle.md](zblogphp-plugin-development-lifecycle.md#include-php-标准写法)）
   - `{ID}_` 开头（如 `MyPlugin_DoSomething()`）
   - 恰好等于 `{ID}`、或以 `_{ID}` 结尾
   - 放在 `{ID}\` 或 `zblogphp\{ID}\` 开头的命名空间中
