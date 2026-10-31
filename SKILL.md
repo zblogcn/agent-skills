@@ -1,17 +1,17 @@
 ---
 name: zblogphp-agent-skills
-version: 1.0.5
+version: 1.0.6
 display_name: Z-Blog PHP 主题与插件开发
 display_name_en: Z-Blog PHP Theme & Plugin Development
 description: 当用户请求涉及 Z-Blog PHP、zblogphp、zblog、zbp、zb_system 或 zb_users 的插件、主题、模板、Hook、数据库、API、后台或安全开发时使用。统一识别项目并按需读取对应专题参考，创建和修改 Z-Blog PHP 应用。
 description_zh: zblogphp主题、插件与扩展开发的统一入口。覆盖插件/主题骨架生成、Hook 钩子、数据库与配置、API、后台页面、安全与权限等领域，按任务路由到对应专题参考实现。当用户提到 Z-Blog PHP、zblogphp、zblog、zbp、zb_system、zb_users，或要求制作/修改插件、主题、模板、钩子、接口、后台功能时使用。
 description_en: Unified entry for zblogphp theme and plugin development. Covers skeleton generation, hooks, database & config, API, admin pages, security and permissions — routing each task to the right topic reference. Use when users mention Z-BlogPHP, zblogphp, zblog, zbp, zb_system, zb_users, or ask to build/modify plugins, themes, templates, hooks, APIs or admin features.
 examples_zh:
-  - "帮我创建一个 Z-BlogPHP 插件"
+  - "帮我创建一个 Z-BlogPHP 用户中心插件"
   - "开发一个民宿主题"
   - "给插件加个 Filter 钩子"
 examples_en:
-  - "Create a Z-BlogPHP plugin for me"
+  - "Create a Z-BlogPHP user center plugin for me"
   - "Build a guesthouse theme"
   - "Add a Filter hook to my plugin"
 ---
