@@ -368,8 +368,8 @@ def create_theme(args):
 
     # template.json
     write_text(os.path.join(app_dir, "template.json"), build_template_json(args.id))
-    print("提醒：template.json 仅示范 index/single 两项；是否需要列表、分类、搜索、404 等")
-    print("      更多模板声明属于设计决策，filename 与 type 的对应关系见 theme-structure.md。")
+    print("提醒：新主题至少提供 3 种分类列表版式、2 种文章内页版式，并在 template.json 声明；")
+    print("      filename 与 type 的对应关系见 theme-structure.md「列表与文章版式的最低数量」。")
 
     # style/style.css
     write_text(os.path.join(app_dir, "style", "style.css"), build_style_css(args.id))

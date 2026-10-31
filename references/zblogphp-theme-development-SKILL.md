@@ -19,6 +19,7 @@
 
 - 目标站点的行业、受众和主要内容类型（如门店展示、内容资讯、图文作品、商品导购）。
 - 页面清单：首页、列表、文章、单页、搜索、404 分别承载什么内容模块。
+- 版式清单：分类列表至少 3 种、文章内页至少 2 种，分别说明结构差异（卡片流、左图右文、纯标题、通栏、带侧栏等），数量和 template.json 声明见 [theme-structure.md「列表与文章版式的最低数量」](zblogphp-theme-development-theme-structure.md#列表与文章版式的最低数量)。
 - 信息架构：导航如何组织（顶部/侧边、单级/多级、是否带搜索入口）、栅格节奏（栏数、侧栏有无与位置、卡片密度）、列表页排版（卡片/列表/瀑布流等，只选与内容匹配的）、文章页排版（标题区、元信息、正文宽度、目录、相关内容）。
 - 视觉方向：配色、字体层级、间距节奏，与同站点既有主题拉开差异。
 
@@ -30,7 +31,7 @@
 
 ### 3. 模板与页面对应
 
-按 template-hierarchy.md 从页面类型选择模板，再按 template-syntax.md 编写标签。对象属性和页面变量查 template-vars.md。主题只提供与默认行为不同的模板文件，缺失文件由运行时回落机制处理。站标、页脚品牌这类品牌区组件按 [theme-structure.md「品牌区」](zblogphp-theme-development-theme-structure.md#品牌区logo-与站点名称二选一) 二选一：有 Logo 只显示图，没有只显示纯文字，不要自加装饰组合。
+按 template-hierarchy.md 从页面类型选择模板，再按 template-syntax.md 编写标签。对象属性和页面变量查 template-vars.md。主题只提供与默认行为不同的模板文件，缺失文件由运行时回落机制处理。分类列表至少 3 种、文章内页至少 2 种版式，模板文件与 template.json 声明按 [theme-structure.md「列表与文章版式的最低数量」](zblogphp-theme-development-theme-structure.md#列表与文章版式的最低数量) 落实。站标、页脚品牌这类品牌区组件按 [theme-structure.md「品牌区」](zblogphp-theme-development-theme-structure.md#品牌区logo-与站点名称二选一) 二选一：有 Logo 只显示图，没有只显示纯文字，不要自加装饰组合。
 
 ### 4. 侧栏和模块
 

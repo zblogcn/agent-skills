@@ -172,8 +172,21 @@ zb_users/theme/{主题ID}/
 | 自定义列表模板（任意名，如 `card`、`feed`） | 含 `list` 的组合（如 `list,category`） | 分类/标签/作者编辑的「模板」下拉（type 含 `list` 即出现） |
 
 - `type` 是页面类型列表，`|` 与 `,` 两种分隔在官方主题中都有使用，声明后按类型匹配进对应下拉框。
-- 是否声明更多模板（独立分类列表、搜索页、404 页等）属于设计决策，骨架只示范 `index`/`single` 两项；新增声明前对照官方主题的 template.json 核对 type 取值，不要凭猜测填写。
 - 声明了 filename 但 `template/` 下没有对应文件时，选择该模板的页面回落到默认模板。
+
+### 列表与文章版式的最低数量
+
+新主题不能只做一套版式再换配色，至少要提供以下可切换模板，并全部写进 `template.json`：
+
+| 位置 | 最低数量 | 声明写法 |
+|---|---|---|
+| 分类列表 | 3 种 | `index`（`list\|index`）可算一种，其余用 `list-card.php`、`list-media.php` 等独立模板，`type` 写 `list\|category` |
+| 文章内页 | 2 种 | `single`（`type: single`）可算一种，再补 `single-wide.php` 等，`type` 写 `single\|article` |
+
+- 版式差异必须落在结构上（卡片流、左图右文、纯标题、通栏、带侧栏），不是同一套模板改 CSS 颜色。
+- 每个声明的 filename 都必须有对应模板文件；缺文件时，选择该模板的页面静默回落到默认模板。
+- 只有 `type` 含 `list|category` / `single|article` 的模板才会出现在分类、文章编辑页的下拉框，数量不够时后台选不到（筛选规则见 template-hierarchy.md「后台模板选择器」）。
+- 搜索页、404 页等其它模板属于可选项，声明前对照官方主题的 template.json 核对 type 取值。
 
 ## 与 plugin.xml 的关系
 
