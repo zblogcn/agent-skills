@@ -127,57 +127,7 @@ function MyPlugin_EnsureModules()
 
 ## include.php 标准写法
 
-在[共同约定](application-conventions.md)的应用副本中补充以下生命周期逻辑；示例也供模板缺失时回退。`MyPlugin` 为占位 ID，头像钩子和配置项按目标功能替换：
-
-```php
-<?php
-
-// 注册插件：参数1=插件ID，参数2=激活时执行的函数名
-RegisterPlugin("MyPlugin", "ActivePlugin_MyPlugin");
-
-// 激活函数：插件启用后每个请求都会执行，在这里挂 Filter 钩子
-function ActivePlugin_MyPlugin()
-{
-    global $zbp;
-    $zbp->LoadLanguage('plugin', 'MyPlugin');
-    MyPlugin_EnsureInstalled();     // 自愈：CLI 启用等情况安装回调不会执行
-    Add_Filter_Plugin('Filter_Plugin_Member_Avatar', 'MyPlugin_Url');
-}
-
-// 安装函数：后台启用后的一次性入口；可能不执行，因此内部与自愈共用同一套检查
-function InstallPlugin_MyPlugin()
-{
-    MyPlugin_EnsureInstalled();
-}
-
-function MyPlugin_EnsureInstalled()
-{
-    global $zbp;
-    if ((int) $zbp->Config('MyPlugin')->installed_version === 1) {
-        return;
-    }
-    $zbp->Config('MyPlugin')->default_url = '//example.com/avatar/{%emailmd5%}.png';
-    $zbp->Config('MyPlugin')->source = '{%host%}zb_users/avatar/0.png';
-    $zbp->Config('MyPlugin')->local_priority = 0;
-    $zbp->Config('MyPlugin')->installed_version = 1;
-    $zbp->SaveConfig('MyPlugin');
-}
-
-// 卸载函数：停用时执行一次，必须幂等且不销毁用户数据
-function UninstallPlugin_MyPlugin()
-{
-    global $zbp;
-    $zbp->Config('MyPlugin')->DelKey('runtime_cache');
-    $zbp->SaveConfig('MyPlugin');
-}
-
-// 钩子回调
-function MyPlugin_Url(&$member)
-{
-    global $zbp;
-    // ... 处理后 return 结果
-}
-```
+骨架由 `scripts/create_app.py` 生成（模板为同目录 `include.html`）：守卫、`RegisterPlugin`、注入了 `$zbp->LoadLanguage('plugin', 'ID')` 的激活函数、空的安装/卸载函数。在此之上只做三类改动：激活函数里挂钩子并调用 `MyPlugin_EnsureInstalled()`；安装/自愈函数里补默认配置，写法见上文「自愈式初始化」；卸载函数里清运行期状态。
 
 规则要点：
 

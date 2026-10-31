@@ -10,6 +10,7 @@
 
 ```php
 <?php
+if (!defined('ZBP_PATH')) { exit('Access denied'); }
 RegisterPlugin('myplugin', 'ActivePlugin_myplugin');
 
 function ActivePlugin_myplugin()

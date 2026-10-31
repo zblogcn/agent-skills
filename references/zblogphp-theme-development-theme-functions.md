@@ -1,20 +1,16 @@
 # 主题 include.php：注册与钩子
 
-主题与插件共用应用机制。include.php 在主题激活期间随**每次请求**加载（前台与后台）。`scripts/create_app.py` 已生成注册与语言加载，下面是完整示例（`mytheme` 为占位 ID），按功能补充钩子即可；生命周期函数的执行时机见[插件生命周期](zblogphp-plugin-development-lifecycle.md#include-php-标准写法)。
+主题与插件共用应用机制。include.php 在主题激活期间随**每次请求**加载（前台与后台）。`scripts/create_app.py` 已生成守卫、注册、语言加载和空的安装/卸载函数（模板为 scripts/include.html），下面只列出需要补充的部分（`mytheme` 为占位 ID）；生命周期函数的执行时机见[插件生命周期](zblogphp-plugin-development-lifecycle.md#include-php-标准写法)。
 
 ## 基本骨架
 
-```php
-<?php
-// 注册主题（第一个参数必须等于主题目录名 / theme.xml 的 <id>）
-RegisterPlugin("mytheme", "ActivePlugin_mytheme");
+只需在生成的骨架上补充钩子与默认配置：
 
-// 每次请求执行：挂钩子、加载语言包
+```php
 function ActivePlugin_mytheme()
 {
     global $zbp;
-    // 加载主题语言包 zb_users/theme/mytheme/language/
-    $zbp->LoadLanguage('theme', 'mytheme');
+    $zbp->LoadLanguage('theme', 'mytheme');          // 脚本已生成此行
     Add_Filter_Plugin('Filter_Plugin_Zbp_MakeTemplatetags', 'mytheme_MakeTemplatetags');
 }
 
@@ -27,11 +23,6 @@ function InstallPlugin_mytheme()
         $cfg->Logo = '示例主题';
         $cfg->Save();
     }
-}
-
-// 主题停用/卸载时执行
-function UninstallPlugin_mytheme()
-{
 }
 ```
 

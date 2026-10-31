@@ -9,6 +9,7 @@ Z-BlogPHP 1.7.x 的插件钩子系统集中在 `zb_system/function/c_system_plug
 ```php
 <?php
 // zb_users/plugin/<PluginID>/include.php
+if (!defined('ZBP_PATH')) { exit('Access denied'); }
 
 // 1) 注册插件：插件 ID + 激活函数名
 RegisterPlugin("MyPlugin", "ActivePlugin_MyPlugin");

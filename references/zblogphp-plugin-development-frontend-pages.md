@@ -10,6 +10,7 @@
 
 ```php
 // include.php 激活函数里
+if (!defined('ZBP_PATH')) { exit('Access denied'); }
 Add_Filter_Plugin('Filter_Plugin_ViewAuto_Begin', 'MyPlugin_Route');
 
 function MyPlugin_Route($original_url, $url)
