@@ -43,7 +43,7 @@
 
 ### 6. 交付前静态检查
 
-按 [共同约定「读取与交付边界」](application-conventions.md#读取与交付边界) 默认执行零成本静态检查并修复问题，只覆盖本次新建或修改的文件：PHP 文件 `php -l`；模板 `{if}`、`{foreach}` 等成对标签逐个配平（用 `python scripts/check_template_tags.py <主题目录>` 检查，漏写闭合不会报错、只会静默吞内容）；`{template:}` 引用的文件存在；语言包三包键一致且模板引用的语言键都有定义（用 `python scripts/check_lang_keys.py <主题目录>` 检查）；本地资源路径存在、无站外资源。静态检查结果随交付说明一并汇报；运行时实测只在用户明确要求时进行（手段见 [本地开发与实测](zblogphp-local-testing.md)）。
+按 [共同约定「读取与交付边界」](application-conventions.md#读取与交付边界) 默认执行零成本静态检查并修复问题，`config.local.md` 的 `static-check` 为 `off` 时跳过；只覆盖本次新建或修改的文件：PHP 文件 `php -l`；模板 `{if}`、`{foreach}` 等成对标签逐个配平（用 `python scripts/check_template_tags.py <主题目录>` 检查，漏写闭合不会报错、只会静默吞内容）；`{template:}` 引用的文件存在；语言包三包键一致且模板引用的语言键都有定义（用 `python scripts/check_lang_keys.py <主题目录>` 检查）；本地资源路径存在、无站外资源。静态检查结果随交付说明一并汇报；运行时实测只在用户明确要求时进行（手段见 [本地开发与实测](zblogphp-local-testing.md)）。
 
 ## 按症状排错
 
